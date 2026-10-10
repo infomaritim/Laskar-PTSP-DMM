@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Laskar PTSP DMM</title>
+<style>
+:root{color-scheme:light;--bg:#e8eef6;--c:#f8fafd;--t:#1f2b3a;--m:#5d6b7c;--a:#1f6fd1;--ok:#1b8a4e;--w:#b5750f;--e:#c53030;--b:#c9d3df;--sat:#ff6a00}
+*{box-sizing:border-box}body{margin:0;font:14px system-ui,sans-serif;background:var(--bg);color:var(--t)}
+header{display:flex;gap:18px;align-items:center;flex-wrap:wrap;padding:10px 16px;background:var(--c);border-bottom:1px solid var(--b);position:sticky;top:0;z-index:5}
+h1{font-size:16px;margin:0}.steps{display:flex;gap:6px;flex-wrap:wrap}
+.steps button{display:flex;align-items:center;gap:7px;border-radius:99px;padding:5px 12px 5px 6px;font-size:13px;color:var(--m)}
+.steps i{font-style:normal;width:20px;height:20px;border-radius:50%;background:var(--b);display:grid;place-items:center;font-size:11px;color:var(--t)}
+.steps .cur{background:var(--a);color:#fff;border-color:var(--a)}.steps .cur i{background:#fff3;color:#fff}.steps .done i{background:var(--ok);color:#fff}
+main{padding:14px}section{display:none}
+body[data-step="1"] #st1,body[data-step="2"] #st2,body[data-step="3"] #st3,body[data-step="5"] #st5,body[data-step="7"] #st7,body[data-step="4"] #view,body[data-step="6"] #view{display:block}
+.panel{max-width:780px;margin:26px auto;background:var(--c);border:1px solid var(--b);border-radius:12px;padding:24px}
+.panel h2{margin:0 0 4px;font-size:20px}.sub{color:var(--m);margin:4px 0 16px}
+.drop{display:block;border:2px dashed var(--b);border-radius:10px;padding:34px 20px;text-align:center;cursor:pointer;background:var(--bg)}
+.drop:hover,.drop.h{border-color:var(--a)}.drop b{display:block;font-size:15px}.drop small{color:var(--m);display:block;margin-top:6px}.drop input{display:none}
+.foot{display:flex;justify-content:space-between;margin-top:20px}
+button{font:inherit;padding:7px 14px;border-radius:6px;border:1px solid var(--b);background:var(--c);color:var(--t);cursor:pointer}
+button.p{background:var(--a);color:#fff;border-color:var(--a)}button:disabled{opacity:.4;cursor:default}button.big{padding:12px 22px;font-size:15px}
+.sat-btn{background:var(--sat);color:#fff;border:0;font-weight:700;animation:pl 1.8s infinite}
+@keyframes pl{0%{box-shadow:0 0 0 0 #ff6a0099}70%{box-shadow:0 0 0 10px #ff6a0000}100%{box-shadow:0 0 0 0 #ff6a0000}}
+#log{position:fixed;left:14px;bottom:14px;max-width:60vw;background:#1c2733;color:#fff;padding:8px 14px;border-radius:8px;font-size:12px;z-index:20}#log:empty{display:none}
+.prog{margin-top:14px;color:var(--m);min-height:20px}.sumbox{background:var(--bg);border-radius:8px;padding:12px 14px;margin-bottom:14px;line-height:1.7}
+.bar{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}.chip{display:flex;align-items:center;gap:6px;white-space:nowrap;border-radius:99px;padding:5px 12px}.chip.s{background:var(--a);color:#fff;border-color:var(--a)}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block}.dot.ok{background:var(--ok)}.dot.wr{background:#e0a020}.dot.er{background:var(--e)}
+.pg{display:flex;gap:6px}#notice:not(:empty){margin-bottom:8px}.note{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:10px 14px;border-radius:8px;margin-bottom:6px;background:#fff4e5;color:#7a3e00;border:1px solid #ffb366}
+.note.sat{background:var(--sat);color:#fff;border-color:var(--sat);font-size:14px}.note.sat span{flex:1}.note.sat .sat-btn{background:#fff;color:#c24d00;animation:none}.note.sat button.g{background:#fff3;color:#fff;border-color:#fff8}
+#grid{display:grid;gap:10px}body[data-step="4"] #grid{grid-template-columns:1fr 1fr}body[data-step="4"] #fp{display:none}body[data-step="6"] #grid{grid-template-columns:minmax(340px,.85fr) 1fr 1fr}
+.pane{height:calc(100vh - 205px);min-height:420px;background:var(--c);border:1px solid var(--b);border-radius:8px;overflow:auto;min-width:0}
+.pane h2{font-size:12px;margin:0;padding:8px 12px;position:sticky;top:0;background:var(--c);border-bottom:1px solid var(--b);color:var(--m);z-index:2;display:flex;justify-content:space-between;align-items:center}
+.zc{display:flex;gap:4px;align-items:center}.zc button{padding:0 8px;font-size:13px}#pcv{display:block;margin:0 auto}#dx{background:#a3aebb;overflow:hidden}#form{padding:10px}
+label{display:block;font-size:11px;color:var(--m);margin:6px 0 2px}input,textarea{width:100%;font:inherit;padding:4px 6px;border:1px solid var(--b);border-radius:5px;background:var(--bg);color:var(--t)}
+textarea{resize:vertical;min-height:30px}table{border-collapse:collapse;width:100%}td,th{padding:2px;font-size:11px;vertical-align:top}
+.row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.iss{color:var(--w);font-size:12px;margin:6px 0}.iss.e{color:var(--e)}
+.rrow{display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--b)}.rrow .rt{flex:1;min-width:0}.rrow small{display:block;color:var(--m)}
+.sum{display:flex;gap:22px;font-size:16px;margin:8px 0 12px}.card{background:var(--c);border:1px solid var(--b);border-radius:8px;padding:10px}
+@media(max-width:1100px){#grid{grid-template-columns:1fr!important}}
+</style></head><body data-step="1">
+<header><h1>Laskar PTSP DMM</h1><nav class="steps" id="steps"></nav></header>
+<main>
+<section class="panel" id="st1"><h2>1 · Upload PDF</h2><p class="sub">Pilih PDF laporan meteorologi yang akan dipindahkan ke Word.</p>
+<label class="drop" id="d-pdf"><b>Klik atau seret file PDF ke sini</b><small id="n-pdf">Belum ada file</small><input type="file" accept=".pdf" id="f-pdf"></label>
+<div class="foot"><span></span><button class="p" id="nx1" data-go="2" disabled>Lanjut →</button></div></section>
+<section class="panel" id="st2"><h2>2 · Upload Template Word</h2><p class="sub">Template .docx kosong dengan teks kuning sebagai tempat isian, atau template yang sudah berisi data lama (data lama akan diganti otomatis).</p>
+<label class="drop" id="d-tpl"><b>Klik atau seret file template .docx ke sini</b><small id="n-tpl">Belum ada file</small><input type="file" accept=".docx" id="f-tpl"></label>
+<div class="foot"><button data-go="1">← Kembali</button><button class="p" id="nx2" data-go="3" disabled>Lanjut →</button></div></section>
+<section class="panel" id="st3"><h2>3 · Transfer data</h2><p class="sub">Baca isi PDF (surat, tabel, gambar satelit, tanda tangan) lalu isikan ke template.</p>
+<div class="sumbox" id="sum"></div><button class="p big" id="go" disabled>Mulai transfer</button><div class="prog" id="prog"></div>
+<div class="foot"><button data-go="2">← Kembali</button><button class="p" id="nx3" data-go="4" disabled>Lihat Preview →</button></div></section>
+<section id="view"><div class="bar"><div class="nav" id="nav"></div><div class="pg"><button data-go="prev">← Kembali</button><button class="p" data-go="next">Lanjut →</button></div></div><div id="notice"></div>
+<div id="grid">
+<div class="pane" id="fp"><h2><span>Edit data</span></h2><div id="form"></div></div>
+<div class="pane" id="pp"><h2><span>PDF asli <span id="pinfo"></span></span><span class="zc"><button onclick="zoomP(1/1.2)">−</button><span id="zpl">100%</span><button onclick="zoomP(1.2)">+</button><button onclick="zoomP(0)">Fit</button></span></h2><div style="padding:8px"><canvas id="pcv"></canvas></div></div>
+<div class="pane" id="dxp"><h2><span>Hasil Word (preview) <span id="dinfo"></span></span><span class="zc"><button onclick="zoomD(1/1.2)">−</button><span id="zdl">100%</span><button onclick="zoomD(1.2)">+</button><button onclick="zoomD(0)">Fit</button></span></h2><div id="dx"></div></div>
+</div></section>
+<section class="panel" id="st5" style="max-width:900px"><h2>5 · Regenerate</h2><p class="sub">Tarik ulang halaman yang gagal atau perlu dicek. Tiap klik memakai strategi pembacaan berbeda dan menimpa edit manual pada halaman itu.</p>
+<button class="p" data-act="retryall">↻ Regenerate semua yang Gagal / Cek</button><div id="rg" style="margin-top:12px"></div>
+<div class="foot"><button data-go="4">← Kembali</button><button class="p" data-go="6">Lanjut ke Edit →</button></div></section>
+<section class="panel" id="st7"><h2>7 · Download</h2><div id="dl"></div><div class="foot"><button data-go="6">← Kembali</button><span></span></div></section>
+</main>
+<div id="log"></div>
+<input type="file" accept="image/*" id="f-sat" hidden>
+<div id="fm" style="display:none;position:fixed;inset:0;background:#000b;z-index:30;padding:16px"><div class="card" style="height:100%;display:flex;flex-direction:column;gap:8px">
+<div class="row" style="margin:0;align-items:center"><b id="ft" style="flex:1">Frame Citra Satelit</b><button class="p" data-act="pastef">📋 Tempel hasil dari clipboard</button><button data-act="pick">Upload PNG…</button><a href="https://montaa23.github.io/Citrasat-PTSP/" target="_blank" rel="noopener"><button>Buka di tab baru</button></a><button data-act="closef">Tutup</button></div>
+<small style="color:var(--m)">Buat frame → klik "Salin ke clipboard" di dalam alat → klik "Tempel hasil dari clipboard" di atas (atau tutup panel lalu Ctrl+V). Gambar masuk ke laporan yang sedang dipilih.</small>
+<iframe id="fi" allow="clipboard-read; clipboard-write" style="flex:1;border:0;border-radius:6px;background:#fff"></iframe></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/docx-preview@0.3.2/dist/docx-preview.min.js"></script>
+<script>
+const $=s=>document.querySelector(s),DPI=300,HITUNG_BEAUFORT=true,GANTI_NAMA=true,TTD_H=.95,TTD_BAWAH=.3,GAPS=[16,10,24,32,6];
+const S={pdf:null,tpl:null,name:'',doc:null,D:null,P:{},sel:0,blob:null};
+let lt;const log=t=>{$('#log').textContent=t;const p=$('#prog');if(p)p.textContent=t;clearTimeout(lt);lt=setTimeout(()=>$('#log').textContent='',9000)}, esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const CDN='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/';
+pdfjsLib.GlobalWorkerOptions.workerSrc=CDN+'pdf.worker.min.js';const ready=Promise.resolve(); // worker dimuat via <script> -> pdf.js jalan tanpa Web Worker (aman di file:// & sandbox)
+
+/* ---------- upload ---------- */
+for(const k of['pdf','tpl']){const inp=$('#f-'+k),dz=$('#d-'+k);
+ inp.onchange=async()=>{const f=inp.files[0];if(!f)return;const b=await f.arrayBuffer();
+  if(k==='pdf'){S.pdf=b;S.name=f.name.replace(/\.pdf$/i,'')}else S.tpl=b;
+  $('#n-'+k).textContent='✔ '+f.name;steps();go(S.pdf&&S.tpl?3:k==='pdf'?2:1)};
+ dz.ondragover=e=>{e.preventDefault();dz.classList.add('h')};dz.ondragleave=()=>dz.classList.remove('h');
+ dz.ondrop=e=>{e.preventDefault();dz.classList.remove('h');inp.files=e.dataTransfer.files;inp.onchange()}}
+
+/* ---------- PDF helpers ---------- */
+async function getPage(pi){const pg=await S.doc.getPage(pi+1),vp=pg.getViewport({scale:1}),tc=await pg.getTextContent();
+ const items=tc.items.filter(i=>i.str.trim()).map(i=>({s:i.str.trim(),x0:i.transform[4],x1:i.transform[4]+i.width,y:vp.height-i.transform[5],h:i.height||8}));
+ return{pg,vp,items}}
+function lines(items,tol=3){const a=[...items].sort((p,q)=>p.y-q.y||p.x0-q.x0),L=[];
+ for(const it of a){const l=L.find(l=>Math.abs(l.y-it.y)<tol);l?l.it.push(it):L.push({y:it.y,it:[it]})}
+ return L.sort((a,b)=>a.y-b.y).map(l=>({y:l.y,it:l.it.sort((a,b)=>a.x0-b.x0)}))}
+const ltxt=l=>l.it.reduce((s,i,k)=>s+(k&&i.x0-l.it[k-1].x1>1.5?' ':'')+i.s,'');
+const ptext=P=>lines(P.items).map(ltxt).join('\n');
+async function renderPage(pg,scale){const vp=pg.getViewport({scale}),c=document.createElement('canvas');c.width=vp.width;c.height=vp.height;
+ await pg.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;return c}
+async function findImages(pg,vp){const ol=await pg.getOperatorList(),O=pdfjsLib.OPS,out=[],st=[];let m=[1,0,0,1,0,0];
+ const mul=(a,b)=>[a[0]*b[0]+a[2]*b[1],a[1]*b[0]+a[3]*b[1],a[0]*b[2]+a[2]*b[3],a[1]*b[2]+a[3]*b[3],a[0]*b[4]+a[2]*b[5]+a[4],a[1]*b[4]+a[3]*b[5]+a[5]];
+ ol.fnArray.forEach((fn,i)=>{const a=ol.argsArray[i];
+  if(fn===O.save)st.push(m);else if(fn===O.restore)m=st.pop()||m;
+  else if(fn===O.transform)m=mul(m,a);
+  else if(fn===O.paintFormXObjectBegin){st.push(m);if(a[0])m=mul(m,a[0])}else if(fn===O.paintFormXObjectEnd)m=st.pop()||m;
+  else if(fn===O.paintImageXObject||fn===O.paintInlineImageXObject||fn===O.paintImageXObjectRepeat){
+   const pts=[[0,0],[1,0],[0,1],[1,1]].map(([u,v])=>vp.convertToViewportPoint(m[0]*u+m[2]*v+m[4],m[1]*u+m[3]*v+m[5]));
+   const xs=pts.map(p=>p[0]),ys=pts.map(p=>p[1]);out.push({x0:Math.min(...xs),x1:Math.max(...xs),top:Math.min(...ys),bottom:Math.max(...ys)})}});
+ return out}
+async function png(cv){const b=await new Promise(r=>cv.toBlob(r,'image/png'));return{bytes:new Uint8Array(await b.arrayBuffer()),w:cv.width,h:cv.height,url:URL.createObjectURL(b)}}
+function cropCv(src,x0,y0,x1,y1){const k=DPI/72,c=document.createElement('canvas');x0=Math.max(0,x0*k|0);y0=Math.max(0,y0*k|0);x1=Math.min(src.width,x1*k|0);y1=Math.min(src.height,y1*k|0);
+ c.width=x1-x0;c.height=y1-y0;c.getContext('2d').drawImage(src,x0,y0,c.width,c.height,0,0,c.width,c.height);return c}
+
+/* ---------- parse laporan ---------- */
+async function parseReport(P,st){
+ const L=lines(P.items),txt=L.map(ltxt).join('\n');let m=txt.match(/Coordinate:?\s*(.+)/);const raw=m?m[1].trim():'',ft=raw.match(/^from\s+(.+?)\s+to\s+(.+)$/i);
+ const r={start:ft?ft[1].trim():raw,end:ft?ft[2].trim():'',date:'',tz:'(WIB)',first_date:'',rows:[],sat:null,st,pi:P.pi};
+ m=txt.match(/^for\s+(.+)$/m);r.date=m?m[1].trim():'';
+ const all=await findImages(P.pg,P.vp),imgs=all.filter(i=>i.top>(st?150:250)&&i.bottom-i.top>120);let im=imgs[imgs.length-1];
+ if(im){const cv=await renderPage(P.pg,DPI/72);r.sat=await png(cropCv(cv,im.x0,im.top,im.x1,im.bottom))}
+ const hl=L.find(l=>l.it.some(i=>/WEATHER/.test(i.s)));if(!hl)return r;
+ if(!im){const cd=all.filter(i=>i.top>hl.y&&i.bottom-i.top>60&&i.x1-i.x0>100).sort((a,b)=>(b.x1-b.x0)*(b.bottom-b.top)-(a.x1-a.x0)*(a.bottom-a.top))[0];
+  if(cd){im=cd;r.sat=await png(cropCv(await renderPage(P.pg,DPI/72),cd.x0,cd.top,cd.x1,cd.bottom))}}
+ const TR=/\d{1,2}\s*[:.]\s*\d{2}/,yMax=im?im.top:P.vp.height;
+ const t0=P.items.filter(i=>i.y>hl.y+2&&i.y<yMax&&TR.test(i.s)).sort((a,b)=>a.y-b.y)[0],y0=t0?t0.y:hl.y+30;
+ const hi=P.items.filter(i=>i.y>hl.y-14&&i.y<y0-6).sort((a,b)=>a.x0-b.x0),hdrTxt=hi.map(i=>i.s).join(' ');
+ m=hdrTxt.match(/\((WIB|WITA|WIT)\)/)||hdrTxt.match(/\((\w+)\)/);r.tz=m?'('+m[1]+')':'(WIB)';
+ const cl=[];for(const i of hi){const c=cl[cl.length-1];c&&i.x0<=c.x1+4?(c.x1=Math.max(c.x1,i.x1)):cl.push({x0:i.x0,x1:i.x1})}
+ const bnd=cl.slice(0,-1).map((c,k)=>(c.x1+cl[k+1].x0)/2),col=i=>bnd.filter(b=>b<(i.x0+i.x1)/2).length;
+ const hb=Math.max(hl.y,...hi.map(i=>i.y))+3,body=P.items.filter(i=>i.y>hb&&i.y<yMax);
+ const anc=body.filter(i=>col(i)===1&&TR.test(i.s)).sort((a,b)=>a.y-b.y),grp=[];
+ for(const a of anc){const g=grp[grp.length-1];g&&a.y-g.last<=GAPS[st%GAPS.length]?(g.last=a.y):grp.push({first:a.y,last:a.y})}
+ const cen=grp.map(g=>(g.first+g.last)/2),dif=cen.slice(1).map((c,k)=>c-cen[k]).sort((x,y)=>x-y),pitch=dif.length?dif[dif.length>>1]:22,gl=grp[grp.length-1];
+ const noteY=gl?Math.min(Infinity,...body.filter(i=>i.y>gl.last+4&&/^(Note|\*\))/i.test(i.s)).map(i=>i.y-i.h-1)):Infinity;
+ const lastEnd=gl?Math.min(Math.max(cen[cen.length-1]+pitch*.6,gl.last+9),noteY,yMax):yMax;   // batas bawah tabel: tinggi 1 baris, berhenti sebelum "Note"/legenda
+ const edges=grp.map((g,k)=>[k?(grp[k-1].last+g.first)/2:hb,k<grp.length-1?(g.last+grp[k+1].first)/2:lastEnd]);
+ const yEnd=edges.length?edges[edges.length-1][1]:yMax,c0=body.filter(i=>col(i)===0&&i.y<yEnd),dt=c0.filter(i=>/\d{1,2}\s*[\/.\-]\s*\d{1,2}\s*[\/.\-]\s*\d{2,4}/.test(i.s));
+ r.first_date=lines(dt.length?dt:c0).map(ltxt).join(' ');
+ edges.forEach(([a,b])=>{const cells=['',...[1,2,3,4,5].map(c=>lines(body.filter(i=>col(i)===c&&i.y>=a&&i.y<b)).map(ltxt).join('\n'))];
+  if(cells.some(x=>x))r.rows.push(cells)});
+ return r}
+
+/* ---------- parse surat ---------- */
+function parseLetter(text){
+ let ls=text.split('\n').map(l=>l.trim()).filter(Boolean);const s=ls.findIndex(l=>/^Ref\b/i.test(l));ls=ls.slice(Math.max(s,0));
+ const val=p=>{for(const l of ls){const m=l.match(p);if(m)return m[1].trim()}return''};
+ const d={ref:val(/^Ref\.?\s*[:;]\s*(.+)$/i),attach:val(/^Attach\w*\s*[:;]\s*(.+)$/i),to_company:'',to_lines:[],item1:'',herewith:'',item2:'',place_date:'',sincerely:'',behalf:'',chief:'',name:'',bullets:[]};
+ const iTo=ls.findIndex(l=>/^To\s*[:;]/i.test(l)),i1=ls.findIndex((l,i)=>i>iTo&&/^1\s*[.)]\s/.test(l));if(iTo<0||i1<0)return d;
+ const to=ls.slice(iTo+1,i1).map(l=>l.replace(/^JI\./,'Jl.'));d.to_company=to[0]||'';d.to_lines=to.slice(1);
+ const iB=ls.map((l,i)=>i>i1&&/^\S{0,2}\s*(From|Coordinate)\b/.test(l)?i:-1).filter(i=>i>=0),fB=iB.length?iB[0]:i1+1;
+ d.item1=ls.slice(i1,fB).join(' ').replace(/^1\s*[.)]\s*/,'');d.bullets_ocr=iB.map(i=>ls[i].replace(/^[^\w]{0,3}\s*/,''));
+ const lB=iB.length?iB[iB.length-1]:fB,find=(p,st=0)=>{for(let i=st;i<ls.length;i++)if(p.test(ls[i]))return i;return-1};
+ let i=find(/^here\s*with/i,lB);d.herewith=i>=0?ls[i]:'';i=find(/^2\s*[.,)]\s/,lB);d.item2=i>=0?ls[i].replace(/^2\s*[.,)]\s*/,''):'';
+ for(const[k,p]of[['place_date',/^Jakarta\b/i],['sincerely',/^Sincerely/i],['behalf',/^on behalf/i],['chief',/^Chief/i]]){i=find(p,lB);d[k]=i>=0?ls[i]:''}
+ const iC=find(/^Chief/i,lB);if(iC>=0)for(const l of ls.slice(iC+1)){const g=[...l].filter(c=>/[A-Za-z]|[ .,']/.test(c)).length/Math.max(l.length,1);if(l.length>=6&&g>=.85)d.name=l}
+ return d}
+async function ocr(P){const cv=await renderPage(P.pg,DPI/72),x=cv.getContext('2d'),im=x.getImageData(0,0,cv.width,cv.height),a=im.data;
+ for(let i=0;i<a.length;i+=4)if(a[i+2]-a[i]>45&&a[i+2]>120)a[i]=a[i+1]=a[i+2]=255;x.putImageData(im,0,0);
+ log('OCR halaman surat (pertama kali memuat mesin OCR, mohon tunggu)…');
+ if(!window.Tesseract)await new Promise((ok,no)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';s.onload=ok;s.onerror=no;document.head.appendChild(s)});
+ const w=await Tesseract.createWorker('eng');await w.setParameters({tessedit_pageseg_mode:'6'});const{data}=await w.recognize(cv);await w.terminate();return data.text}
+async function findSig(){for(const pi in S.P){const P=S.P[pi],f=P.items.find(i=>i.s.toLowerCase()==='forecaster');if(!f)continue;
+ const top=f.y-f.h,bot=f.y+f.h*.25,below=P.items.filter(i=>i.y-i.h>bot-2&&i.y-i.h<bot+90&&i.x0>f.x0-90&&i.x1<f.x1+90);
+ const sg=(await findImages(P.pg,P.vp)).filter(i=>i.top>bot-5&&i.top<bot+90&&i.bottom-i.top<90);
+ const X0=[f.x0,...below.map(i=>i.x0),...sg.map(i=>i.x0)],X1=[f.x1,...below.map(i=>i.x1),...sg.map(i=>i.x1)],Y1=[bot,...below.map(i=>i.y+i.h*.25),...sg.map(i=>i.bottom)];
+ const c=cropCv(await renderPage(P.pg,DPI/72),Math.min(...X0)-4,top-4,Math.max(...X1)+4,Math.max(...Y1)+4),x=c.getContext('2d'),im=x.getImageData(0,0,c.width,c.height),a=im.data;
+ let x0=c.width,y0=c.height,x1=0,y1=0;
+ for(let i=0;i<a.length;i+=4){const al=Math.min(255,(255-Math.min(a[i],a[i+1],a[i+2]))*4);a[i+3]=al;if(al>20){const p=i/4,px=p%c.width,py=p/c.width|0;x0=Math.min(x0,px);x1=Math.max(x1,px);y0=Math.min(y0,py);y1=Math.max(y1,py)}}
+ if(x1<x0)return null;x.putImageData(im,0,0);const o=document.createElement('canvas');x0=Math.max(x0-6,0);y0=Math.max(y0-6,0);o.width=Math.min(x1+7,c.width)-x0;o.height=Math.min(y1+7,c.height)-y0;
+ o.getContext('2d').drawImage(c,x0,y0,o.width,o.height,0,0,o.width,o.height);return png(o)}return null}
+
+/* ---------- util ---------- */
+const BF=[1,4,7,11,17,22,28,34,41,48,56,64];
+function beaufort(v){const n=(v.match(/\d+(?:[.,]\d+)?/g)||[]).map(x=>+x.replace(',','.'));if(!n.length)return'-';const a=BF.filter(t=>Math.min(...n)>=t).length,b=BF.filter(t=>Math.max(...n)>=t).length;return a===b?''+a:a+' - '+b}
+function splitDV(c){const l=c.split('\n').map(x=>x.trim()).filter(Boolean);return l.length&&/^[\d.,\s–\-—]+$/.test(l[l.length-1])?[l.slice(0,-1).join(' '),l[l.length-1]]:[l.join(' '),'']}
+function normDate(s){const m=s.replace(/,/g,'').match(/^([A-Za-z]+)\s+(\d+)\s+(\d{4})$/);return m?`${m[1]} ${+m[2]}, ${m[3]}`:s}
+
+/* ---------- DOCX ---------- */
+const NW='http://schemas.openxmlformats.org/wordprocessingml/2006/main',NWP='http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing',NA='http://schemas.openxmlformats.org/drawingml/2006/main',NR='http://schemas.openxmlformats.org/officeDocument/2006/relationships';
+const ch=(e,n)=>e?[...e.children].filter(c=>c.localName===n):[],f1=(e,n)=>ch(e,n)[0],ds=(e,n)=>[...e.getElementsByTagNameNS(NW,n)];
+const rt=r=>ch(r,'t').map(t=>t.textContent).join(''),hasDraw=r=>ch(r,'drawing').length>0,pt=p=>ch(p,'r').map(rt).join('');
+const yel=c=>!!c&&(c.getAttributeNS(NW,'val')||'').toUpperCase()==='FFFF00',cEl=r=>f1(f1(r,'rPr'),'color'),isY=r=>yel(cEl(r)),hy=p=>ch(p,'r').some(r=>isY(r)&&rt(r));
+function groups(p){const g=[];let cur=[];for(const r of ch(p,'r')){if(isY(r))cur.push(r);else if(rt(r)!==''){if(cur.length)g.push(cur);cur=[]}}if(cur.length)g.push(cur);return g}
+function setText(r,t){ch(r,'t').forEach(x=>x.remove());const e=r.ownerDocument.createElementNS(NW,'w:t');e.textContent=t;e.setAttributeNS('http://www.w3.org/XML/1998/namespace','xml:space','preserve');r.appendChild(e);const c=cEl(r);if(yel(c))c.remove()}
+function fill(p,tx){if(!p)return;if(typeof tx==='string')tx=[tx];const c=f1(f1(f1(p,'pPr'),'rPr'),'color');if(yel(c))c.remove();
+ groups(p).forEach((g,i)=>{const t=g.filter(r=>!hasDraw(r));if(!t.length)return;setText(t[0],tx[i]??'');t.slice(1).forEach(r=>r.remove())})}
+function fillValue(p,v){if(!p)return;ch(p,'r').forEach(r=>{if(!isY(r)&&rt(r)===' ')r.remove()});fill(p,v+' ')}
+function swapPic(par,s,rid,id){const an=par.getElementsByTagNameNS(NWP,'anchor')[0]||par.getElementsByTagNameNS(NWP,'inline')[0];if(!an)return;
+ const ex=[...an.children].find(c=>c.localName==='extent'),cx=+ex.getAttribute('cx'),cy=Math.round(cx*s.h/s.w);ex.setAttribute('cy',cy);
+ [...an.getElementsByTagNameNS(NA,'xfrm')].forEach(x=>{const e=[...x.children].find(c=>c.localName==='ext');if(e){e.setAttribute('cx',cx);e.setAttribute('cy',cy)}});
+ [...an.getElementsByTagNameNS(NA,'blip')].forEach(b=>b.setAttributeNS(NR,'r:embed',rid));const dp=[...an.children].find(c=>c.localName==='docPr');if(dp)dp.setAttribute('id',id)}
+const sigXml=(rid,cx,cy,y,id)=>`<w:r xmlns:w="${NW}" xmlns:wp="${NWP}" xmlns:a="${NA}" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture" xmlns:r="${NR}"><w:drawing><wp:anchor distT="0" distB="0" distL="0" distR="0" simplePos="0" relativeHeight="251675000" behindDoc="0" locked="0" layoutInCell="1" allowOverlap="1"><wp:simplePos x="0" y="0"/><wp:positionH relativeFrom="margin"><wp:align>right</wp:align></wp:positionH><wp:positionV relativeFrom="page"><wp:posOffset>${y}</wp:posOffset></wp:positionV><wp:extent cx="${cx}" cy="${cy}"/><wp:effectExtent l="0" t="0" r="0" b="0"/><wp:wrapNone/><wp:docPr id="${id}" name="Forecaster signature"/><wp:cNvGraphicFramePr/><a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic><pic:nvPicPr><pic:cNvPr id="0" name="forecaster.png"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="${rid}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:anchor></w:drawing></w:r>`;
+
+async function build(){
+ const D=S.D,L=D.letter,zip=await JSZip.loadAsync(S.tpl),doc=new DOMParser().parseFromString(await zip.file('word/document.xml').async('string'),'application/xml');
+ const body=doc.getElementsByTagNameNS(NW,'body')[0],sect=f1(body,'sectPr');
+ let rels=await zip.file('word/_rels/document.xml.rels').async('string'),ct=await zip.file('[Content_Types].xml').async('string'),n=0,add='';
+ const addImg=b=>{n++;zip.file(`word/media/ap${n}.png`,b);add+=`<Relationship Id="rIdAP${n}" Type="${NR}/image" Target="media/ap${n}.png"/>`;return'rIdAP'+n};
+ const P=()=>ch(body,'p');let paras=P();
+ const fp=(pr,st=0)=>{for(let i=st;i<paras.length;i++)if(pr(paras[i]))return i;throw new Error('Paragraf template tidak ditemukan (cek teks kuning di template)')};
+ const noLetter=!paras.some(p=>pt(p).startsWith('Ref'));S.noLetter=noLetter;
+ const kids0=[...body.children],isBr=e=>e.localName==='p'&&[...e.getElementsByTagNameNS(NW,'br')].some(b=>b.getAttributeNS(NW,'type')==='page');
+ const iS0=kids0.findIndex(isBr),st0=noLetter?0:iS0;if(!noLetter&&iS0<0)throw new Error('Template punya halaman surat tetapi tidak ada page break sebelum halaman laporan');
+ const iE=kids0.findIndex((e,i)=>i>st0&&isBr(e)),end=iE<0?kids0.length:iE;   // prototipe = HANYA 1 halaman laporan pertama
+ S.auto=!ds(body,'r').some(r=>isY(r)&&rt(r)!=='');   /* run kuning KOSONG tidak dihitung */
+ if(S.auto)autoMark(kids0.slice(0,st0),kids0.slice(st0,end));
+ if(!noLetter){
+ if(!L.bulletsManual){const sm=paras.find(p=>pt(p).startsWith('●')&&hy(p));L.bullets=D.reports.map(r=>bulletText(r,sm?pt(sm):''))}
+ if(L.ref)fill(paras[fp(p=>pt(p).startsWith('Ref'))],L.ref);   /* Ref kosong = biarkan isi template (diganti manual) */fill(paras[fp(p=>pt(p).startsWith('Attach'))],L.attach);
+ const iTo=fp(p=>pt(p).trim().startsWith('To')),addr=[];for(const p of paras.slice(iTo+1)){if(hy(p))addr.push(p);else break}
+ if(!addr.length)throw new Error('Alamat "To :" kuning tidak ditemukan di template');
+ const proto=(addr[1]||addr[0]).cloneNode(true);fill(addr[0],L.to_company);let last=addr[0];
+ for(const t of L.to_lines){const nw=proto.cloneNode(true);fill(nw,t);last.after(nw);last=nw}addr.slice(1).forEach(p=>p.remove());
+ paras=P();const num=paras.filter(p=>f1(f1(p,'pPr'),'numPr')&&hy(p));fill(num[0],L.item1);fill(num[1],L.item2);
+ const bul=paras.filter(p=>pt(p).startsWith('●')&&hy(p));
+ if(bul.length){const an=bul[0];last=an;bul.slice(1).forEach(p=>p.remove());for(const t of L.bullets){const nw=an.cloneNode(true);fill(nw,'● '+t);last.after(nw);last=nw}an.remove()}
+ paras=P();const F=(s,v)=>{const i=fp(p=>hy(p)&&pt(p).startsWith(s));fill(paras[i],v);return i};
+ F('here',L.herewith);F('Jakarta',L.place_date);F('Sincerely',L.sincerely);F('on behalf',L.behalf);const iCh=F('Chief',L.chief);
+ if(GANTI_NAMA&&L.name){const i=fp(p=>pt(p).trim()!=='',iCh+1),rs=ch(paras[i],'r');setText(rs[0],L.name);rs.slice(1).forEach(r=>r.remove())}
+ }
+ /* cegah halaman kosong: (1) buang paragraf kosong di akhir surat, (2) page-break paragraf mandiri -> pageBreakBefore di judul laporan */
+ if(!noLetter){let e=kids0[st0].previousElementSibling;while(e&&e.localName==='p'&&!pt(e).trim()&&!e.getElementsByTagNameNS(NW,'drawing').length&&!e.getElementsByTagNameNS(NW,'br').length&&!e.getElementsByTagNameNS(NW,'sectPr').length){const pv=e.previousElementSibling;e.remove();e=pv}}
+ const ps0=kids0.slice(st0,end).filter(e=>e!==sect);
+ if(ps0.length>1&&isBr(ps0[0])&&!pt(ps0[0]).trim()&&!ps0[0].getElementsByTagNameNS(NW,'drawing').length&&ps0[1].localName==='p'){pbBefore(ps0[1]);ps0.shift()}
+ const protos=ps0.map(e=>e.cloneNode(true));kids0.slice(st0).forEach(e=>{if(e!==sect)e.remove()});
+ const pb=()=>{const p=doc.createElementNS(NW,'w:p'),r=doc.createElementNS(NW,'w:r'),b=doc.createElementNS(NW,'w:br');b.setAttributeNS(NW,'w:type','page');r.appendChild(b);p.appendChild(r);return p};
+ let did=1000,sigPar=null;
+ let ri=0;
+ for(const rep of D.reports){const blk=protos.map(e=>e.cloneNode(true)),pars=blk.filter(e=>e.localName==='p');
+  blk.forEach(e=>[...e.getElementsByTagNameNS(NWP,'docPr')].filter(d=>d.getAttribute('name')==='Forecaster signature').forEach(d=>{let r=d;while(r&&r.localName!=='r')r=r.parentNode;if(r)r.remove()}));
+  {const cp=pars.find(p=>pt(p).startsWith('Coordinate'));fill(cp,groups(cp).length>=2?[rep.start+' ',rep.end]:[coordText(rep)+' '])}{const fp2=pars.find(p=>pt(p).startsWith('for '));fill(fp2,styleFor(rep,yText(fp2)))}
+  const tbl=blk.find(e=>e.localName==='tbl'),trs=ch(tbl,'tr'),[hdr,ft,nt0]=trs,nt=nt0||ft;
+  ds(hdr,'p').forEach(p=>{if(hy(p))fill(p,rep.tz)});trs.slice(1).forEach(t=>t.remove());
+  rep.rows.forEach((c,k)=>{const tr=(k?nt:ft).cloneNode(true),tc=ch(tr,'tc'),pp=x=>f1(x,'p');
+   if(!k)fill(pp(tc[0]),styleDate(rep,yText(pp(tc[0]))));fill(pp(tc[1]),styleTime(c[1].replace(/\n/g,' '),yText(pp(tc[1]))));fill(pp(tc[2]),c[2].replace(/\n/g,' '));
+   [[tc[3],c[3]],[tc[4],c[4]]].forEach(([t,x])=>{const[d,v]=splitDV(x),ps=ch(t,'p'),cm=d&&/,\s*$/.test(yText(ps[0]))?',':'';fill(ps[0],d+cm);fillValue(ps[1],v)});
+   fill(pp(tc[5]),c[5].replace(/\n/g,' '));fill(pp(tc[6]),HITUNG_BEAUFORT?beaufort(splitDV(c[3])[1]):'-');tbl.appendChild(tr)});
+  const ap=[...pars].reverse().find(p=>p.getElementsByTagNameNS(NW,'drawing').length);
+  if(ap){if(rep.sat)swapPic(ap,rep.sat,addImg(rep.sat.bytes),did++);else ch(ap,'r').forEach(r=>{if(hasDraw(r))r.remove()});sigPar=ap}
+  if(noLetter&&ri>0){const f0=blk[0];if(f0&&f0.localName==='p')pbBefore(f0);else sect.before(pb())}ri++;blk.forEach(e=>sect.before(e))}
+ if(D.sig&&sigPar){const cy=Math.round(TTD_H*914400),cx=Math.round(cy*D.sig.w/D.sig.h),ph=+f1(sect,'pgSz').getAttributeNS(NW,'h')*635;
+  const el=new DOMParser().parseFromString(sigXml(addImg(D.sig.bytes),cx,cy,Math.round(ph-cy-TTD_BAWAH*914400),did+1),'application/xml').documentElement;sigPar.appendChild(doc.importNode(el,true))}
+ const left=ds(body,'p').filter(hy).map(pt);
+ zip.file('word/document.xml',new XMLSerializer().serializeToString(doc));zip.file('word/_rels/document.xml.rels',rels.replace('</Relationships>',add+'</Relationships>'));
+ if(!/Extension="png"/i.test(ct))zip.file('[Content_Types].xml',ct.replace('</Types>','<Default Extension="png" ContentType="image/png"/></Types>'));
+ return{blob:await zip.generateAsync({type:'blob',mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'}),left}}
+
+/* ---------- template berisi data: tandai otomatis jadi "kuning" ---------- */
+const setY=r=>{const d=r.ownerDocument;let rp=f1(r,'rPr');if(!rp){rp=d.createElementNS(NW,'w:rPr');r.insertBefore(rp,r.firstChild)}let c=f1(rp,'color');if(!c){c=d.createElementNS(NW,'w:color');rp.appendChild(c)}c.setAttributeNS(NW,'w:val','FFFF00')};
+function markRange(p,a,b){if(b<=a)return;let off=0;for(const r of[...ch(p,'r')]){const t=rt(r),n=t.length;if(!n)continue;const s0=off;off+=n;if(off<=a||s0>=b)continue;const ca=Math.max(a,s0)-s0,cb=Math.min(b,off)-s0;
+ const parts=[[t.slice(0,ca),0],[t.slice(ca,cb),1],[t.slice(cb),0]].filter(x=>x[0]);let prev=r;parts.forEach(([x,m],k)=>{const rr=k?r.cloneNode(true):r;setText(rr,x);if(k)prev.after(rr);if(m)setY(rr);prev=rr})}}
+const markAll=p=>markRange(p,0,pt(p).length),markAfter=(p,re)=>{const m=re.exec(pt(p));if(m)markRange(p,m[0].length,pt(p).length)};
+const colored=p=>ch(p,'r').some(r=>{const c=cEl(r),v=c?(c.getAttributeNS(NW,'val')||'').toUpperCase():'';return v&&!['AUTO','000000','FFFF00'].includes(v)});
+function autoMark(lp,blk){const T=pt,pp=lp.filter(e=>e.localName==='p');
+ for(const p of pp){const t=T(p);if(/^Ref/i.test(t)){if(!colored(p))markAfter(p,/^\s*Ref\.?\s*[:;]\s*/i)}   /* Ref berwarna (mis. merah) = isi manual, jangan ditimpa */
+  else if(/^Attach/i.test(t))markAfter(p,/^\s*Attach\w*\s*[:;]\s*/i);
+  else if(/^●/.test(t)||/^here\s*with/i.test(t)||/^Jakarta\b/i.test(t)||/^Sincerely/i.test(t)||/^on behalf/i.test(t)||/^Chief/i.test(t))markAll(p)}
+ const iTo=pp.findIndex(p=>/^\s*To\b/.test(T(p)));
+ if(iTo>=0){const ad=[];for(let k=iTo+1;k<pp.length;k++){const p=pp[k];if(f1(f1(p,'pPr'),'numPr')||/^\s*\d+\s*[.)]\s/.test(T(p)))break;ad.push(p)}
+  while(ad.length&&!T(ad[ad.length-1]).trim())ad.pop();ad.forEach(p=>T(p).trim()?markAll(p):p.remove())}
+ pp.filter(p=>f1(f1(p,'pPr'),'numPr')).slice(0,2).forEach(markAll);
+ for(const p of blk.filter(e=>e.localName==='p')){const t=T(p);let m;
+  if(m=/^(\s*Coordinate:\s*from\s+)(.+?\s+)(to\s+)(.+)$/.exec(t)){const a=m[1].length+m[2].length;markRange(p,m[1].length,a);markRange(p,a+m[3].length,t.length)}
+  else if(m=/^(\s*Coordinate:\s*)(.+)$/.exec(t))markRange(p,m[1].length,t.length);
+  else if(m=/^(\s*for\s+)(.+)$/.exec(t))markRange(p,m[1].length,t.length)}
+ const tbl=blk.find(e=>e.localName==='tbl');if(!tbl)return;const trs=ch(tbl,'tr');
+ ds(trs[0],'p').forEach(p=>{const m=/\((WIB|WITA|WIT)\)/.exec(T(p));if(m)markRange(p,m.index,m.index+m[0].length)});
+ trs.slice(1).forEach(tr=>{const tc=ch(tr,'tc'),pr=x=>ch(tc[x],'p');
+  [0,1,2,5,6].forEach(c=>tc[c]&&pr(c).forEach(p=>T(p).trim()&&markAll(p)));
+  [3,4].forEach(c=>{if(!tc[c])return;const ps=pr(c);if(ps[0]&&T(ps[0]).trim())markAll(ps[0]);if(ps[1]){const m=/^[\d.,\s–\-—]+/.exec(T(ps[1]));if(m)markRange(ps[1],0,m[0].length)}})})}
+
+/* ---------- format mengikuti contoh kuning di template ---------- */
+const yText=p=>groups(p).flat().map(rt).join(''),MON=['January','February','March','April','May','June','July','August','September','October','November','December'];
+function styleTime(t,s){const ts=t.match(/\d{1,2}\s*[:.]\s*\d{2}/g)||[],sep=/\d\.\d{2}/.test(s)?'.':/\d:\d{2}/.test(s)?':':null;if(ts.length!==2||!sep)return t;
+ const dash=s.includes('–')?' – ':s.includes('-')?' - ':null;if(!dash)return t;
+ return ts.map(x=>{const[h,m]=x.trim().split(/\s*[:.]\s*/);return String(+h).padStart(2,'0')+sep+m}).join(dash)}
+function styleDate(rep,s){const m=normDate(rep.date).replace(/,/g,'').match(/^\s*([A-Za-z]+)\s+(\d{1,2})\s*(\d{4})/);
+ if(m){const mon=m[1][0].toUpperCase()+m[1].slice(1).toLowerCase(),sm=s.match(/^\s*([A-Za-z]+)\s+\d/);
+  if(MON.includes(mon)&&sm&&MON.some(x=>x.slice(0,3).toLowerCase()===sm[1].slice(0,3).toLowerCase()))return`${sm[1].length===3?mon.slice(0,3):mon} ${+m[2]}, ${m[3]}`}
+ return rep.first_date}
+const styleFor=(rep,s)=>/\b[A-Za-z]+\s[1-9],\s*\d{4}/.test(s)?normDate(rep.date):rep.date;   // 'July 3, 2026' (tanpa nol) bila contoh begitu
+const coordText=r=>r.end?`from ${r.start} to ${r.end}`:r.start;
+const bulletText=(r,s)=>{const d=normDate(r.date);return(/Coordinate/i.test(s||'')||!r.end)?`Coordinate: ${coordText(r)} for ${d}`:`From ${r.start} to ${r.end} for ${d}`};
+
+function pbBefore(p){const d=p.ownerDocument;let pp=f1(p,'pPr');if(!pp){pp=d.createElementNS(NW,'w:pPr');p.insertBefore(pp,p.firstChild)}if(f1(pp,'pageBreakBefore'))return;
+ const el=d.createElementNS(NW,'w:pageBreakBefore'),nx=[...pp.children].find(c=>!['pStyle','keepNext','keepLines'].includes(c.localName));nx?pp.insertBefore(el,nx):pp.appendChild(el)}
+
+/* ---------- QC ---------- */
+function qc(i){const D=S.D,o=[];
+ if(i===0){const L=D.letter;['to_company','item1','place_date','name'].forEach(k=>{if(!L[k])o.push(['w','Kosong: '+k])});if(!L.bullets.length)o.push(['e','Bullet kosong']);if(!D.sig)o.push(['w','Tanda tangan Forecaster tidak ditemukan'])}
+ else{const r=D.reports[i-1];if(!r.rows.length)o.push(['e','Tabel gagal ditarik']);else{const em=r.rows.reduce((a,c)=>a+[1,2,3,4,5].filter(k=>!c[k].trim()).length,0);if(em)o.push(['w',em+' sel tabel kosong'])}
+  if(!r.sat)o.push(['w','Gambar satelit tidak ditemukan']);['start','date'].forEach(k=>{if(!r[k])o.push(['w','Kosong: '+k])});if(!r.first_date)o.push(['w','Tanggal kolom pertama kosong'])}
+ return o}
+const lvl=i=>{const q=qc(i);return q.some(x=>x[0]==='e')?'er':q.length?'wr':'ok'};
+
+/* ---------- UI ---------- */
+const STEPS=['Upload PDF','Upload Template','Transfer data','Preview','Regenerate','Edit','Download'],canGo=n=>n<=2||(n===3?!!(S.pdf&&S.tpl):!!S.D);S.step=1;S.sel=0;
+const pages=()=>S.noLetter?S.D.reports.map((_,k)=>k+1):[0,...S.D.reports.map((_,k)=>k+1)],ptitle=i=>i?`Laporan ${i} — ${S.D.reports[i-1].date||'?'}`:'Surat pengantar';
+function steps(){$('#steps').innerHTML=STEPS.map((t,k)=>{const n=k+1,d=(n===1&&S.pdf)||(n===2&&S.tpl)||(n===3&&S.D);return `<button data-go="${n}" class="${S.step===n?'cur':d?'done':''}" ${canGo(n)?'':'disabled'}><i>${d&&S.step!==n?'✓':n}</i>${t}</button>`}).join('');
+ $('#nx1').disabled=!S.pdf;$('#nx2').disabled=!S.tpl;$('#nx3').disabled=!S.D;$('#go').disabled=!(S.pdf&&S.tpl);
+ $('#sum').innerHTML=`PDF: <b>${esc($('#n-pdf').textContent)}</b><br>Template: <b>${esc($('#n-tpl').textContent)}</b>${S.auto===undefined?'':'<br>Mode template: <b>'+(S.auto?'berisi data lama (ditandai otomatis)':'penanda kuning')+'</b>'}`}
+async function go(n){if(n==='prev')n=S.step-1;if(n==='next')n=S.step+1;n=+n;if(n<1||n>7||!canGo(n))return;S.step=n;document.body.dataset.step=n;steps();scrollTo(0,0);
+ if(n===4||n===6){renderNav();renderNotice();if(n===6)renderForm();fit();viewPdf();scrollDoc()}if(n===5)renderRg();if(n===7)renderDl()}
+function renderNav(){$('#nav').innerHTML=pages().map(i=>`<button class="chip ${S.sel===i?'s':''}" data-i="${i}"><b class="dot ${lvl(i)}"></b>${i?'Laporan '+i:'Surat'}${i&&!S.D.reports[i-1].sat?' 🛰':''}</button>`).join('')}
+function renderNotice(){const i=S.sel,q=qc(i);let h='';
+ if(i&&!S.D.reports[i-1].sat)h+=`<div class="note sat"><span>🛰 <b>Gambar satelit Laporan ${i} tidak ditemukan di PDF</b> — buat frame di Citra Satelit lalu tempel ke sini.</span><button class="sat-btn" data-act="frame">Buka Frame Citra Satelit</button><button class="g" data-act="pick">Upload gambar…</button></div>`;
+ const o=q.filter(x=>!/satelit/i.test(x[1]));if(o.length)h+=`<div class="note">⚠ ${o.map(x=>x[1]).join(' · ')}</div>`;$('#notice').innerHTML=h}
+function renderRg(){$('#rg').innerHTML=pages().map(i=>{const q=qc(i).map(x=>x[1]).join(' · '),l=lvl(i),r=i&&S.D.reports[i-1];
+ return `<div class="rrow"><b class="dot ${l}"></b><div class="rt"><b>${esc(ptitle(i))}</b><small>${q||'Tidak ada masalah terdeteksi'}${r?` · strategi ${r.st%GAPS.length+1}/${GAPS.length}`:''}</small></div><div class="row" style="margin:0">${r&&!r.sat?`<button class="sat-btn" data-act="frame" data-i2="${i}">🛰 Frame Citra Satelit</button>`:''}${r?`<button data-act="retry1" data-i2="${i}">↻ Regenerate</button>`:''}<button data-act="view" data-i2="${i}">Lihat</button></div></div>`}).join('')}
+function renderDl(){const c={ok:0,wr:0,er:0},all=pages();all.forEach(i=>c[lvl(i)]++);const todo=all.filter(i=>lvl(i)!=='ok');
+ $('#dl').innerHTML=`<div class="sum"><div><b class="dot ok"></b> ${c.ok} OK</div><div><b class="dot wr"></b> ${c.wr} Cek</div><div><b class="dot er"></b> ${c.er} Gagal</div></div>`+(todo.length?`<p class="sub">Masih perlu dicek: ${todo.map(i=>i?'Laporan '+i:'Surat').join(', ')}. Anda tetap bisa mengunduh lalu memperbaikinya di Word.</p>`:'<p class="sub">Semua halaman lolos pengecekan otomatis. Tetap bandingkan dengan PDF di Preview.</p>')+`<label>Nama file</label><div class="row" style="margin:0"><input id="fname" style="flex:1;min-width:220px;font-size:15px;padding:9px" value="${esc(S.fname??'Hasil_'+S.name)}"><span style="align-self:center;color:var(--m)">.docx</span></div><div class="row"><button class="p big" data-act="dl">⬇ Simpan sebagai…</button></div><p class="sub" style="margin-top:10px">Di Chrome/Edge akan muncul dialog "Simpan sebagai" untuk memilih folder dan nama. Di browser lain, file diunduh memakai nama di atas.</p>`}
+const ta=(p,v,arr)=>`<textarea data-p="${p}" ${arr?'data-arr=1':''} rows="${arr?Math.max(2,v.length):1}">${esc(arr?v.join('\n'):v)}</textarea>`,inp=(p,v)=>`<input data-p="${p}" value="${esc(v)}">`;
+function renderForm(){const D=S.D,i=S.sel,iss=qc(i).map(x=>`<div class="iss ${x[0]==='e'?'e':''}">⚠ ${x[1]}</div>`).join('');let h='';
+ if(!i){const L=D.letter;h=`<b>Edit surat</b>${iss}`+[['Ref','ref'],['Attach','attach'],['To (perusahaan)','to_company']].map(([a,k])=>`<label>${a}</label>${inp('letter.'+k,L[k])}`).join('')
+  +`<label>To (baris alamat)</label>${ta('letter.to_lines',L.to_lines,1)}<label>Butir 1</label>${ta('letter.item1',L.item1)}<label>Bullet (satu per baris)</label>${ta('letter.bullets',L.bullets,1)}`
+  +[['Here with','herewith'],['Butir 2','item2'],['Tempat, tanggal','place_date'],['Sincerely','sincerely'],['On behalf','behalf'],['Jabatan','chief'],['Nama penandatangan','name']].map(([a,k])=>`<label>${a}</label>${inp('letter.'+k,L[k])}`).join('')
+  +`<div class="row"><button data-act="sync">Sinkron bullet dari laporan</button></div>`}
+ else{const r=D.reports[i-1],b=`reports.${i-1}.`;h=`<b>Edit laporan ${i}</b>${iss}<label>Koordinat dari</label>${inp(b+'start',r.start)}<label>Koordinat ke (kosongkan bila koordinat titik tunggal)</label>${inp(b+'end',r.end)}<label>Tanggal</label>${inp(b+'date',r.date)}<label>Zona waktu</label>${inp(b+'tz',r.tz)}<label>Tanggal kolom pertama</label>${inp(b+'first_date',r.first_date)}
+  <label>Tabel (arah & nilai di sel angin/arus dipisah baris baru)</label><div style="overflow:auto"><table><tr><th>Waktu<th>Cuaca<th>Angin<th>Arus<th>Gelombang<th>Bf<th></tr>${r.rows.map((c,k)=>`<tr>${[1,2,3,4,5].map(j=>`<td>${ta(`${b}rows.${k}.${j}`,c[j])}</td>`).join('')}<td>${beaufort(splitDV(c[3])[1])}</td><td><button data-act="del" data-k="${k}">×</button></td></tr>`).join('')}</table></div>
+  <div class="row"><button data-act="add">+ Baris</button><button data-act="retry">↻ Coba ulang halaman ini (strategi ${r.st%GAPS.length+1}/${GAPS.length})</button></div><label>Gambar satelit</label>${r.sat?`<img src="${r.sat.url}" style="max-width:100%;border-radius:4px">`:''}<div class="row"><button class="sat-btn" data-act="frame">🛰 Buka Frame Citra Satelit</button><button data-act="pick">Upload gambar…</button><button data-act="copysat" ${r.sat?'':'disabled'}>Salin gambar ini</button></div><small style="color:var(--m)">Bisa juga tempel gambar langsung dengan Ctrl+V di halaman ini.</small>`}
+ $('#form').innerHTML=h}
+
+async function viewPdf(){if(!S.D||!$('#pp').offsetParent)return;const D=S.D,pi=S.sel?D.reports[S.sel-1].pi:Math.max(D.letterPi,0),pg=await S.doc.getPage(pi+1),w=($('#pcv').parentElement.parentElement.clientWidth-16)*zp,sc=w/pg.getViewport({scale:1}).width,dp=devicePixelRatio||1,vp=pg.getViewport({scale:sc*dp}),c=$('#pcv');
+ c.width=vp.width;c.height=vp.height;c.style.width=vp.width/dp+'px';await pg.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;$('#pinfo').textContent='hal. '+(pi+1)}
+let tm,busy=false,sc1=1,zd=1,zp=1;
+async function refresh(){if(busy)return;busy=true;try{const{blob,left}=await build();S.blob=blob;const sc=$('#dxp').scrollTop;$('#dx').innerHTML='';
+  await docx.renderAsync(blob,$('#dx'),null,{className:'docx',inWrapper:true,breakPages:true});const sec=$('#dx').querySelectorAll('section.docx');
+  fit();$('#dxp').scrollTop=sc;$('#dinfo').textContent=sec.length+' hal.'+(left.length?' · sisa kuning: '+left.length:'');log(left.length?'Peringatan: masih ada teks kuning di template: '+left.slice(0,3).join(' | '):'Preview diperbarui.')}
+ catch(e){log('Gagal menyusun DOCX: '+e.message);console.error(e)}busy=false}
+const touch=()=>{if(S.step===4||S.step===6){renderNav();renderNotice()}if(S.step===5)renderRg();if(S.step===7)renderDl();clearTimeout(tm);tm=setTimeout(refresh,700)};
+function fit(){const w=$('#dx .docx-wrapper');if(!w||!$('#dxp').offsetParent)return;['transform','width','marginBottom','marginRight'].forEach(k=>w.style[k]='');const nw=w.scrollWidth;
+ sc1=($('#dxp').clientWidth-4)/nw*zd;w.style.width=nw+'px';w.style.transformOrigin='0 0';w.style.transform=`scale(${sc1})`;
+ w.style.marginBottom=-(w.offsetHeight*(1-sc1))+'px';w.style.marginRight=-(nw*(1-sc1))+'px';$('#zdl').textContent=Math.round(sc1*100)+'%'}
+const clamp=v=>Math.min(3,Math.max(.3,v));
+function zoomD(d){zd=d?clamp(zd*d):1;fit()}
+function zoomP(d){zp=d?clamp(zp*d):1;$('#zpl').textContent=Math.round(zp*100)+'%';viewPdf()}
+addEventListener('resize',()=>{fit();viewPdf()});
+$('#dxp').addEventListener('wheel',e=>{if(e.ctrlKey){e.preventDefault();zoomD(e.deltaY<0?1.1:1/1.1)}},{passive:false});
+function scrollDoc(){const s=$('#dx').querySelectorAll('section.docx')[S.noLetter?S.sel-1:S.sel];if(s)$('#dxp').scrollTop=s.getBoundingClientRect().top-$('#dx').getBoundingClientRect().top+30*sc1-10}
+$('#dl').addEventListener('input',e=>{if(e.target.id==='fname')S.fname=e.target.value});
+async function saveDocx(){clearTimeout(tm);await refresh();let n=(S.fname??'Hasil_'+S.name).trim().replace(/\.docx$/i,'').replace(/[\\/:*?"<>|]+/g,'_')||'Hasil';n+='.docx';
+ if(window.showSaveFilePicker){try{const h=await showSaveFilePicker({suggestedName:n,types:[{description:'Dokumen Word',accept:{'application/vnd.openxmlformats-officedocument.wordprocessingml.document':['.docx']}}]});const w=await h.createWritable();await w.write(S.blob);await w.close();log('Tersimpan: '+h.name);return}catch(e){if(e.name==='AbortError')return}}
+ const l=document.createElement('a');l.href=URL.createObjectURL(S.blob);l.download=n;l.click();log('Diunduh sebagai '+n)}
+function select(i){S.sel=i;renderNav();renderNotice();if(S.step===6)renderForm();viewPdf();scrollDoc()}
+async function retry(i){const r=S.D.reports[i-1],n=await parseReport(S.P[r.pi],r.st+1);if(r.sat&&r.sat.manual)n.sat=r.sat;S.D.reports[i-1]=n}
+document.addEventListener('input',e=>{const t=e.target,p=t.dataset&&t.dataset.p;if(!p)return;const a=p.split('.');let o=S.D;a.slice(0,-1).forEach(k=>o=o[k]);o[a[a.length-1]]=t.dataset.arr?t.value.split('\n').filter(Boolean):t.value;if(p==='letter.bullets')S.D.letter.bulletsManual=true;touch()});
+async function setSat(blob){const i=S.sel;if(!i){log('Pilih halaman laporan dulu, lalu tempel gambar.');return}
+ const bm=await createImageBitmap(blob),c=document.createElement('canvas');c.width=bm.width;c.height=bm.height;c.getContext('2d').drawImage(bm,0,0);
+ const o=await png(c);o.manual=true;S.D.reports[i-1].sat=o;if(S.step===6)renderForm();touch();log('Gambar satelit laporan '+i+' diganti.')}
+const closeF=()=>{$('#fm').style.display='none'};
+async function pasteClip(){try{for(const it of await navigator.clipboard.read()){const t=it.types.find(x=>x.startsWith('image/'));if(t){await setSat(await it.getType(t));closeF();return}}
+ log('Tidak ada gambar di clipboard — klik "Salin ke clipboard" di alat Frame dulu.')}catch(e){log('Izin clipboard ditolak. Tutup panel lalu tekan Ctrl+V di halaman ini.')}}
+$('#f-sat').onchange=async e=>{const f=e.target.files[0];if(f)await setSat(f);e.target.value='';closeF()};
+document.addEventListener('paste',e=>{if(!S.D||/INPUT|TEXTAREA/.test(e.target.tagName))return;const it=[...e.clipboardData.items].find(i=>i.type.startsWith('image/'));if(it){e.preventDefault();setSat(it.getAsFile()).then(closeF)}});
+document.addEventListener('click',async e=>{const t=e.target.closest('[data-i],[data-act],[data-go]');if(!t)return;if(t.dataset.go)return go(t.dataset.go);if(!S.D)return;
+ const D=S.D,a=t.dataset.act;if(t.dataset.i2!==undefined)S.sel=+t.dataset.i2;if(t.dataset.i!==undefined&&!a)return select(+t.dataset.i);
+ if(a==='dl')await saveDocx();
+ else if(a==='sync'){D.letter.bulletsManual=false;D.letter.bullets=D.reports.map(r=>bulletText(r,''));renderForm();touch()}
+ else if(a==='add'){D.reports[S.sel-1].rows.push(['','','','','','']);renderForm();touch()}
+ else if(a==='del'){D.reports[S.sel-1].rows.splice(+t.dataset.k,1);renderForm();touch()}
+ else if(a==='retry'){log('Regenerate halaman…');await retry(S.sel);renderForm();touch();viewPdf()}
+ else if(a==='retry1'){log('Regenerate halaman…');await retry(S.sel);touch();log('Selesai.')}
+ else if(a==='retryall'){log('Regenerate halaman Gagal/Cek…');for(let i=1;i<=D.reports.length;i++)if(lvl(i)!=='ok')await retry(i);touch();log('Selesai.')}
+ else if(a==='view'){await go(4);select(S.sel)}
+ else if(a==='frame'){$('#ft').textContent='Frame Citra Satelit — untuk Laporan '+S.sel;const f=$('#fi');if(!f.src)f.src='https://montaa23.github.io/Citrasat-PTSP/';$('#fm').style.display='block'}
+ else if(a==='pick')$('#f-sat').click();else if(a==='closef')closeF();else if(a==='pastef')pasteClip();
+ else if(a==='copysat'){try{const b=await(await fetch(D.reports[S.sel-1].sat.url)).blob();await navigator.clipboard.write([new ClipboardItem({'image/png':b})]);log('Gambar disalin. Buka Frame Citra Satelit lalu tempel (Ctrl+V).')}catch(x){log('Gagal menyalin: '+x.message)}}});
+$('#go').onclick=async()=>{try{$('#go').disabled=true;log('Membaca PDF…');await ready;S.doc=await pdfjsLib.getDocument({data:new Uint8Array(S.pdf.slice(0))}).promise;
+ const D={letter:null,reports:[],sig:null,letterPi:-1};S.D=D;S.P={};S.sel=0;const N=S.doc.numPages;
+ for(let pi=0;pi<N;pi++){log(`Memproses halaman ${pi+1}/${N}…`);const P=await getPage(pi);P.pi=pi;S.P[pi]=P;const tx=ptext(P);
+  if(/Meteorological Reports/.test(tx))D.reports.push(await parseReport(P,0));
+  else if(!D.letter&&pi===0){let t=tx;if(P.items.reduce((a,i)=>a+i.s.length,0)<=50)t=await ocr(P);D.letter=parseLetter(t);D.letterPi=0}}
+ D.letter=D.letter||parseLetter('');D.letter.bullets=D.reports.length?D.reports.map(r=>bulletText(r,'')):(D.letter.bullets_ocr||[]);
+ log('Mencari tanda tangan Forecaster…');D.sig=await findSig();log('Menyusun Word…');await refresh();S.sel=S.noLetter&&D.reports.length?1:0;steps();go(4)}
+ catch(e){log('Error: '+e.message);console.error(e)}steps()};
+steps();</script></body></html>
