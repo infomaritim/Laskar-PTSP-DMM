@@ -63,7 +63,7 @@ textarea{resize:vertical;min-height:30px}table{border-collapse:collapse;width:10
 <div id="log"></div>
 <input type="file" accept="image/*" id="f-sat" hidden>
 <div id="fm" style="display:none;position:fixed;inset:0;background:#000b;z-index:30;padding:16px"><div class="card" style="height:100%;display:flex;flex-direction:column;gap:8px">
-<div class="row" style="margin:0;align-items:center"><b id="ft" style="flex:1">Frame Citra Satelit</b><button class="p" data-act="pastef">📋 Tempel hasil dari clipboard</button><button data-act="pick">Upload PNG…</button><a href="https://montaa23.github.io/Citrasat-PTSP/" target="_blank" rel="noopener"><button>Buka di tab baru</button></a><button data-act="closef">Tutup</button></div>
+<div class="row" style="margin:0;align-items:center"><b id="ft" style="flex:1">Frame Citra Satelit</b><button class="p" data-act="pastef">📋 Tempel hasil dari clipboard</button><button data-act="pick">Upload PNG…</button><a href="https://infomaritim.github.io/Citrasat-PTSP/" target="_blank" rel="noopener"><button>Buka di tab baru</button></a><button data-act="closef">Tutup</button></div>
 <small style="color:var(--m)">Buat frame → klik "Salin ke clipboard" di dalam alat → klik "Tempel hasil dari clipboard" di atas (atau tutup panel lalu Ctrl+V). Gambar masuk ke laporan yang sedang dipilih.</small>
 <iframe id="fi" allow="clipboard-read; clipboard-write" style="flex:1;border:0;border-radius:6px;background:#fff"></iframe></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -361,7 +361,7 @@ document.addEventListener('click',async e=>{const t=e.target.closest('[data-i],[
  else if(a==='retry1'){log('Regenerate halaman…');await retry(S.sel);touch();log('Selesai.')}
  else if(a==='retryall'){log('Regenerate halaman Gagal/Cek…');for(let i=1;i<=D.reports.length;i++)if(lvl(i)!=='ok')await retry(i);touch();log('Selesai.')}
  else if(a==='view'){await go(4);select(S.sel)}
- else if(a==='frame'){$('#ft').textContent='Frame Citra Satelit — untuk Laporan '+S.sel;const f=$('#fi');if(!f.src)f.src='https://montaa23.github.io/Citrasat-PTSP/';$('#fm').style.display='block'}
+ else if(a==='frame'){$('#ft').textContent='Frame Citra Satelit — untuk Laporan '+S.sel;const f=$('#fi');if(!f.src)f.src='https://infomaritim.github.io/Citrasat-PTSP/';$('#fm').style.display='block'}
  else if(a==='pick')$('#f-sat').click();else if(a==='closef')closeF();else if(a==='pastef')pasteClip();
  else if(a==='copysat'){try{const b=await(await fetch(D.reports[S.sel-1].sat.url)).blob();await navigator.clipboard.write([new ClipboardItem({'image/png':b})]);log('Gambar disalin. Buka Frame Citra Satelit lalu tempel (Ctrl+V).')}catch(x){log('Gagal menyalin: '+x.message)}}});
 $('#go').onclick=async()=>{try{$('#go').disabled=true;log('Membaca PDF…');await ready;S.doc=await pdfjsLib.getDocument({data:new Uint8Array(S.pdf.slice(0))}).promise;
