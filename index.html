@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Laskar PTSP DMM</title>
+<title>Laskar PTSP Infomaritim v12</title>
+
 <style>
 :root{color-scheme:light;--bg:#e8eef6;--c:#f8fafd;--t:#1f2b3a;--m:#5d6b7c;--a:#1f6fd1;--ok:#1b8a4e;--w:#b5750f;--e:#c53030;--b:#c9d3df;--sat:#ff6a00}
 *{box-sizing:border-box}body{margin:0;font:14px system-ui,sans-serif;background:var(--bg);color:var(--t)}
-header{display:flex;gap:18px;align-items:center;flex-wrap:wrap;padding:10px 16px;background:var(--c);border-bottom:1px solid var(--b);position:sticky;top:0;z-index:5}
-h1{font-size:16px;margin:0}.steps{display:flex;gap:6px;flex-wrap:wrap}
+header{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:10px 16px;background:var(--c);border-bottom:1px solid var(--b);position:sticky;top:0;z-index:5}
+h1{font-size:16px;margin:0}.steps{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
 .steps button{display:flex;align-items:center;gap:7px;border-radius:99px;padding:5px 12px 5px 6px;font-size:13px;color:var(--m)}
 .steps i{font-style:normal;width:20px;height:20px;border-radius:50%;background:var(--b);display:grid;place-items:center;font-size:11px;color:var(--t)}
 .steps .cur{background:var(--a);color:#fff;border-color:var(--a)}.steps .cur i{background:#fff3;color:#fff}.steps .done i{background:var(--ok);color:#fff}
 main{padding:14px}section{display:none}
-body[data-step="1"] #st1,body[data-step="2"] #st2,body[data-step="3"] #st3,body[data-step="5"] #st5,body[data-step="7"] #st7,body[data-step="4"] #view,body[data-step="6"] #view{display:block}
+body[data-step="1"] #st1,body[data-step="7"] #st7,body[data-step="4"] #view,body[data-step="6"] #view{display:block}
 .panel{max-width:780px;margin:26px auto;background:var(--c);border:1px solid var(--b);border-radius:12px;padding:24px}
 .panel h2{margin:0 0 4px;font-size:20px}.sub{color:var(--m);margin:4px 0 16px}
 .drop{display:block;border:2px dashed var(--b);border-radius:10px;padding:34px 20px;text-align:center;cursor:pointer;background:var(--bg)}
@@ -27,33 +28,31 @@ button.p{background:var(--a);color:#fff;border-color:var(--a)}button:disabled{op
 .dot{width:9px;height:9px;border-radius:50%;display:inline-block}.dot.ok{background:var(--ok)}.dot.wr{background:#e0a020}.dot.er{background:var(--e)}
 .pg{display:flex;gap:6px}#notice:not(:empty){margin-bottom:8px}.note{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:10px 14px;border-radius:8px;margin-bottom:6px;background:#fff4e5;color:#7a3e00;border:1px solid #ffb366}
 .note.sat{background:var(--sat);color:#fff;border-color:var(--sat);font-size:14px}.note.sat span{flex:1}.note.sat .sat-btn{background:#fff;color:#c24d00;animation:none}.note.sat button.g{background:#fff3;color:#fff;border-color:#fff8}
-#grid{display:grid;gap:10px}body[data-step="4"] #grid{grid-template-columns:1fr 1fr}body[data-step="4"] #fp{display:none}body[data-step="6"] #grid{grid-template-columns:minmax(340px,.85fr) 1fr 1fr}
+#grid{display:grid;gap:10px}body[data-step="4"] #grid,body[data-step="6"] #grid{grid-template-columns:minmax(0,1fr)}body[data-step="4"] #fp,body[data-step="6"] #fp{display:block;width:100%;height:auto;min-height:0;max-height:none}#pp,#dxp{display:none!important}.pane#fp{height:auto;min-height:calc(100vh - 220px);overflow:visible}#form{padding:14px}#form .fg{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:8px 16px}#form .fg .w2{grid-column:1/-1}#form textarea{min-height:42px}#form [data-p="letter.item1"]{min-height:180px;resize:vertical;width:100%}#form .fg>div:has([data-p="letter.item1"]){grid-column:1/-1;width:100%}@media(max-width:700px){.uploadgrid{grid-template-columns:1fr!important}}
+.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:2px 14px}.fg .w2{grid-column:span 2}.fg .wf{grid-column:1/-1}.tt{table-layout:fixed}.tt td,.tt th{padding:2px 3px}.tt textarea{min-height:28px}
 .pane{height:calc(100vh - 205px);min-height:420px;background:var(--c);border:1px solid var(--b);border-radius:8px;overflow:auto;min-width:0}
 .pane h2{font-size:12px;margin:0;padding:8px 12px;position:sticky;top:0;background:var(--c);border-bottom:1px solid var(--b);color:var(--m);z-index:2;display:flex;justify-content:space-between;align-items:center}
-.zc{display:flex;gap:4px;align-items:center}.zc button{padding:0 8px;font-size:13px}#pcv{display:block;margin:0 auto}#dx{background:#a3aebb;overflow:hidden}#form{padding:10px}
+.zc{display:flex;gap:4px;align-items:center}.zc button{padding:0 8px;font-size:13px}#pcv{display:block;margin:0 auto}#dx{background:#a3aebb;overflow:visible;min-height:100%;padding:12px 0}#dx .docx-wrapper{background:#a3aebb!important;padding:0!important;display:flex!important;flex-direction:column!important;align-items:center!important;gap:14px!important}#dx section.docx{display:flex!important;position:relative!important;margin:0 auto!important;box-shadow:0 2px 8px #0002!important;flex:none!important;box-sizing:border-box!important}#form{padding:10px}
 label{display:block;font-size:11px;color:var(--m);margin:6px 0 2px}input,textarea{width:100%;font:inherit;padding:4px 6px;border:1px solid var(--b);border-radius:5px;background:var(--bg);color:var(--t)}
 textarea{resize:vertical;min-height:30px}table{border-collapse:collapse;width:100%}td,th{padding:2px;font-size:11px;vertical-align:top}
 .row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.iss{color:var(--w);font-size:12px;margin:6px 0}.iss.e{color:var(--e)}
 .rrow{display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--b)}.rrow .rt{flex:1;min-width:0}.rrow small{display:block;color:var(--m)}
 .sum{display:flex;gap:22px;font-size:16px;margin:8px 0 12px}.card{background:var(--c);border:1px solid var(--b);border-radius:8px;padding:10px}
-@media(max-width:1100px){#grid{grid-template-columns:1fr!important}}
+@media(max-width:1100px){#grid{grid-template-columns:1fr!important}}@media(max-width:760px){header{align-items:flex-start}header h1{width:100%}.steps{margin-left:0}.steps button{padding:5px 9px;font-size:12px}}
+
 </style></head><body data-step="1">
-<header><h1>Laskar PTSP DMM</h1><nav class="steps" id="steps"></nav></header>
+<header><h1>Laskar PTSP Infomaritim</h1><nav class="steps" id="steps"></nav></header>
 <main>
-<section class="panel" id="st1"><h2>1 · Upload PDF</h2><p class="sub">Pilih PDF laporan meteorologi yang akan dipindahkan ke Word.</p>
-<label class="drop" id="d-pdf"><b>Klik atau seret file PDF ke sini</b><small id="n-pdf">Belum ada file</small><input type="file" accept=".pdf" id="f-pdf"></label>
-<div class="foot"><span></span><button class="p" id="nx1" data-go="2" disabled>Lanjut →</button></div></section>
-<section class="panel" id="st2"><h2>2 · Upload Template Word</h2><p class="sub">Template .docx kosong dengan teks kuning sebagai tempat isian, atau template yang sudah berisi data lama (data lama akan diganti otomatis).</p>
-<label class="drop" id="d-tpl"><b>Klik atau seret file template .docx ke sini</b><small id="n-tpl">Belum ada file</small><input type="file" accept=".docx" id="f-tpl"></label>
-<div class="foot"><button data-go="1">← Kembali</button><button class="p" id="nx2" data-go="3" disabled>Lanjut →</button></div></section>
-<section class="panel" id="st3"><h2>3 · Transfer data</h2><p class="sub">Baca isi PDF (surat, tabel, gambar satelit, tanda tangan) lalu isikan ke template.</p>
-<div class="sumbox" id="sum"></div><button class="p big" id="go" disabled>Mulai transfer</button><div class="prog" id="prog"></div>
-<div class="foot"><button data-go="2">← Kembali</button><button class="p" id="nx3" data-go="4" disabled>Lihat Preview →</button></div></section>
-<section id="view"><div class="bar"><div class="nav" id="nav"></div><div class="pg"><button data-go="prev">← Kembali</button><button class="p" data-go="next">Lanjut →</button></div></div><div id="notice"></div>
+<section class="panel" id="st1" style="max-width:1000px"><h2>Upload PDF, Template Word &amp; Transfer Data</h2><p class="sub">Pilih PDF laporan meteorologi dan template .docx, lalu transfer data dalam satu halaman.</p>
+<div class="uploadgrid" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+<div><label class="drop" id="d-pdf"><b>📄 Upload PDF</b><small id="n-pdf">Belum ada file</small><input type="file" accept=".pdf" id="f-pdf"></label></div>
+<div><label class="drop" id="d-tpl"><b>📝 Upload Template Word (.docx)</b><small id="n-tpl">Belum ada file</small><input type="file" accept=".docx" id="f-tpl"></label></div>
+</div><div class="sumbox" id="sum" style="margin-top:14px">PDF dan template belum dipilih.</div>
+<div class="row" style="justify-content:flex-end"><button class="p big" id="go" disabled>⇄ Transfer Data &amp; Buka Editor</button></div><div class="prog" id="prog"></div></section>
+<section id="view"><div class="bar"><div class="nav" id="nav"></div><div class="pg"><button class="sat-btn" data-act="retryall">↻ Regenerate semua yang Gagal / Cek</button><button class="p" data-go="7">Selesai &amp; Download DOCX →</button></div></div><div id="notice"></div>
 <div id="grid">
 <div class="pane" id="fp"><h2><span>Edit data</span></h2><div id="form"></div></div>
-<div class="pane" id="pp"><h2><span>PDF asli <span id="pinfo"></span></span><span class="zc"><button onclick="zoomP(1/1.2)">−</button><span id="zpl">100%</span><button onclick="zoomP(1.2)">+</button><button onclick="zoomP(0)">Fit</button></span></h2><div style="padding:8px"><canvas id="pcv"></canvas></div></div>
-<div class="pane" id="dxp"><h2><span>Hasil Word (preview) <span id="dinfo"></span></span><span class="zc"><button onclick="zoomD(1/1.2)">−</button><span id="zdl">100%</span><button onclick="zoomD(1.2)">+</button><button onclick="zoomD(0)">Fit</button></span></h2><div id="dx"></div></div>
+
 </div></section>
 <section class="panel" id="st5" style="max-width:900px"><h2>5 · Regenerate</h2><p class="sub">Tarik ulang halaman yang gagal atau perlu dicek. Tiap klik memakai strategi pembacaan berbeda dan menimpa edit manual pada halaman itu.</p>
 <button class="p" data-act="retryall">↻ Regenerate semua yang Gagal / Cek</button><div id="rg" style="margin-top:12px"></div>
@@ -61,18 +60,35 @@ textarea{resize:vertical;min-height:30px}table{border-collapse:collapse;width:10
 <section class="panel" id="st7"><h2>7 · Download</h2><div id="dl"></div><div class="foot"><button data-go="6">← Kembali</button><span></span></div></section>
 </main>
 <div id="log"></div>
-<input type="file" accept="image/*" id="f-sat" hidden>
+
+<input type="file" accept="image/*" id="f-sat" hidden><input type="file" accept="image/*" id="f-sig" hidden>
 <div id="fm" style="display:none;position:fixed;inset:0;background:#000b;z-index:30;padding:16px"><div class="card" style="height:100%;display:flex;flex-direction:column;gap:8px">
 <div class="row" style="margin:0;align-items:center"><b id="ft" style="flex:1">Frame Citra Satelit</b><button class="p" data-act="pastef">📋 Tempel hasil dari clipboard</button><button data-act="pick">Upload PNG…</button><a href="https://infomaritim.github.io/Citrasat-PTSP/" target="_blank" rel="noopener"><button>Buka di tab baru</button></a><button data-act="closef">Tutup</button></div>
 <small style="color:var(--m)">Buat frame → klik "Salin ke clipboard" di dalam alat → klik "Tempel hasil dari clipboard" di atas (atau tutup panel lalu Ctrl+V). Gambar masuk ke laporan yang sedang dipilih.</small>
 <iframe id="fi" allow="clipboard-read; clipboard-write" style="flex:1;border:0;border-radius:6px;background:#fff"></iframe></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/docx-preview@0.3.2/dist/docx-preview.min.js"></script>
+
 <script>
-const $=s=>document.querySelector(s),DPI=300,HITUNG_BEAUFORT=true,GANTI_NAMA=true,TTD_H=.95,TTD_BAWAH=.3,GAPS=[16,10,24,32,6];
+const $=s=>document.querySelector(s),DPI=300,HITUNG_BEAUFORT=true,TTD_DARI_TEMPLATE=true,TTD_H=.95,TTD_BAWAH=.3,GAPS=[16,10,24,32,6];
 const S={pdf:null,tpl:null,name:'',doc:null,D:null,P:{},sel:0,blob:null};
+/* ---------- DATABASE PERUSAHAAN: alamat otomatis bila tidak terbaca dari PDF ---------- */
+/* Tambah perusahaan baru: salin satu baris {to:'nama di surat',al:['alias lain'],lines:['baris alamat 1','baris alamat 2']} */
+const DB_PERUSAHAAN=[{"to": "PT. ODYSSEY SHIPPING LINES","al": [],"lines": ["Equilty Tower 43rd floor Unit F-G, SCBD Lot 9","Jl. Jend. Sudirman Kav. 52-53, Kebayoran Baru","Jakarta Selatan 12190, Indonesia"]},{"to": "PT. WARUNA NUSA SENTANA","al": [],"lines": ["Plaza Pasifik, Blok B2 No.25 - 37","Jl. Boulevard Raya, Kelapa Gading","Jakarta 14240 - Indonesia"]},{"to": "PT. CAKRAWALA NUSA BAHARI","al": [],"lines": ["Jl. A. Yani KM 12,2 Gambut Barat","Gambut, Kabupaten Banjar","Kalimantan Selatan"]},{"to": "PT. PELAYARAN BAHARIMAS KALIMANTAN","al": [],"lines": ["Jl. Adi Sucipto Km. 6+30m Sungai Raya","Kalimantan Barat 78391","Indonesia"]},{"to": "PT. TANKER TOTAL PASIFIK","al": [],"lines": ["Plaza Pasifik, Blok B2 No.29 - 35","Jl. Boulevard Raya, Kelapa Gading","Jakarta 14241 - Indonesia"]},{"to": "PT ASIA BAHARI SEJAHTERA","al": ["PT. ASIA BAHARI SEJAHTERA"],"lines": ["Menara Kuningan 28th floor,","JL. HR Rasuna Said Blok X-7 Kav. 5","Jakarta Selatan 12940"]},{"to": "PT. AURORA TRANS PASIFIK","al": [],"lines": ["Graha Boulevard, Blok B-17","Jl. Boulevard Raya, Kelapa Gading","Jakarta, 14240, Indonesia"]},{"to": "PT. Global Maritim Industri","al": ["PT. GLOBAL MARITIM INDUSTRI SHIPPING","GMI SHIPPING"],"lines": ["Plaza Pasifik, Blok B2 No.29 - 35","Jl. Boulevard Barat Raya, Kelapa Gading","Jakarta 14241"]},{"to": "PT. SAMUGARA ARTAJAYA","al": [],"lines": ["Jl. Fort Barat No. 33 Kebon Bawang, Tanjung Priok","Jakarta 14320"]},{"to": "PT. HYC Sealion Indonesia","al": ["PT. HYC SEALION INDONESIA"],"lines": ["GHJ Suite 5-6 Floor Jl. Tanah Abang III No 18","Petojo Selatan, Gambir","Jakarta 10160"]},{"to": "PT. ABADI CEMERLANG","al": [],"lines": ["Ruko Sentra Menteng No. MN-45","Jl. Samratulangi Bintaro Sektor 7","Tangerang Selatan 15224"]},{"to": "PT. DHARMA NILAITAMA","al": [],"lines": ["Ciputat Mas Plaza Blok E Kav A-B","Jl. Ir. H Juanda No. 5A, Ciputat Timur 15412","Tangerang Selatan Indonesia"]},{"to": "PT. MARITIM SURVEINDO INTERNUSA","al": ["PT MARITIM SURVEINDO INTERNUSA"],"lines": ["Jl. Dukuh V No. 33 RT. 008/RW 02, Kramat Jati","Jakarta 13550"]},{"to": "PT. MAMMIRI LINE","al": [],"lines": ["Jl. Bandang No.116, Parang Layang, Bontoala","Makassar – 90156"]},{"to": "PT. BUANA LINTAS LAUTAN","al": ["PT. BULL"],"lines": []}];
+const normCo=s=>String(s||'').toLowerCase().replace(/\b(pt|cv|tbk)\b/g,' ').replace(/[^a-z0-9]/g,'');
+function lev(a,b){const m=a.length,n=b.length;if(!m||!n)return Math.max(m,n);let p=Array.from({length:n+1},(_,j)=>j);for(let i=1;i<=m;i++){const c=[i];for(let j=1;j<=n;j++)c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=c}return p[n]}
+function simCo(a,b){if(!a||!b)return 0;if(a===b)return 1;if(Math.min(a.length,b.length)>=10&&(a.includes(b)||b.includes(a)))return .92;return 1-lev(a,b)/Math.max(a.length,b.length)}
+const DB_IDX=DB_PERUSAHAAN.map(c=>[c.to,...(c.al||[])].map(normCo).filter(Boolean));
+function findCo(lines){let best=-1,bs=0;for(const l of lines){const n=normCo(l);if(n.length<3)continue;DB_IDX.forEach((ks,i)=>{for(const k of ks){const s=simCo(n,k);if(s>bs){bs=s;best=i}}})}return bs>=.82?{i:best,s:bs}:null}
+function applyDB(L,rawTo){L.dbIdx=-1;L.dbUsed=false;L.dbNote='';const m=findCo(L.to_company?[L.to_company]:(rawTo||[]));
+ if(!m){L.dbNote=L.to_company?'Perusahaan "'+L.to_company+'" belum ada di database.':'Nama perusahaan tidak terbaca dari PDF — pilih dari database.';return L}
+ const c=DB_PERUSAHAAN[m.i];L.dbIdx=m.i;
+ if(!c.lines.length){L.to_company=c.to;L.dbNote='Cocok dengan '+c.to+', tetapi alamatnya belum diisi di database.';return L}
+ if(!L.to_lines.length){L.to_company=c.to;L.to_lines=[...c.lines];L.dbUsed=true;L.dbNote='Alamat diisi otomatis dari database ('+c.to+').'}
+ else L.dbNote='Cocok dengan database ('+c.to+'); alamat dari PDF dipertahankan.';
+ return L}
+function pickDB(i){const L=S.D.letter,c=DB_PERUSAHAAN[i];if(!c)return;L.to_company=c.to;L.to_lines=[...c.lines];L.dbIdx=i;L.dbUsed=true;L.dbNote=c.lines.length?'Alamat diisi dari database ('+c.to+').':'Alamat '+c.to+' belum diisi di database.'}
+const dbBox=L=>`<div class="sumbox" style="margin:8px 0">📇 <b>Database perusahaan</b>${L.dbNote?' — '+esc(L.dbNote):''}<div class="row" style="margin:6px 0 0;align-items:center"><select data-dbpick style="max-width:100%;padding:6px"><option value="">Pilih perusahaan dari database…</option>${DB_PERUSAHAAN.map((c,i)=>`<option value="${i}"${i===L.dbIdx?' selected':''}>${esc(c.to)}</option>`).join('')}</select>${L.dbIdx>=0&&!L.dbUsed&&DB_PERUSAHAAN[L.dbIdx].lines.length?'<button data-act="usedb">Pakai alamat database</button>':''}</div></div>`;
 let lt;const log=t=>{$('#log').textContent=t;const p=$('#prog');if(p)p.textContent=t;clearTimeout(lt);lt=setTimeout(()=>$('#log').textContent='',9000)}, esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const CDN='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/';
 pdfjsLib.GlobalWorkerOptions.workerSrc=CDN+'pdf.worker.min.js';const ready=Promise.resolve(); // worker dimuat via <script> -> pdf.js jalan tanpa Web Worker (aman di file:// & sandbox)
@@ -81,7 +97,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc=CDN+'pdf.worker.min.js';const ready=Promi
 for(const k of['pdf','tpl']){const inp=$('#f-'+k),dz=$('#d-'+k);
  inp.onchange=async()=>{const f=inp.files[0];if(!f)return;const b=await f.arrayBuffer();
   if(k==='pdf'){S.pdf=b;S.name=f.name.replace(/\.pdf$/i,'')}else S.tpl=b;
-  $('#n-'+k).textContent='✔ '+f.name;steps();go(S.pdf&&S.tpl?3:k==='pdf'?2:1)};
+  $('#n-'+k).textContent='✔ '+f.name;steps()};
  dz.ondragover=e=>{e.preventDefault();dz.classList.add('h')};dz.ondragleave=()=>dz.classList.remove('h');
  dz.ondrop=e=>{e.preventDefault();dz.classList.remove('h');inp.files=e.dataTransfer.files;inp.onchange()}}
 
@@ -112,7 +128,7 @@ function cropCv(src,x0,y0,x1,y1){const k=DPI/72,c=document.createElement('canvas
 
 /* ---------- parse laporan ---------- */
 async function parseReport(P,st){
- const L=lines(P.items),txt=L.map(ltxt).join('\n');let m=txt.match(/Coordinate:?\s*(.+)/);const raw=m?m[1].trim():'',ft=raw.match(/^from\s+(.+?)\s+to\s+(.+)$/i);
+ const L=lines(P.items),txt=L.map(ltxt).join('\n');let m=txt.match(/Coordinates?\s*:?\s*(.+)/i);let raw=m?m[1].trim():'';if(!raw){const tk=coordTokens(txt);if(tk.length>=2)raw=txt.slice(tk[0].s,tk[1].e)}const ft=raw.match(/^from\s+(.+?)\s+to\s+(.+)$/i);
  const r={start:ft?ft[1].trim():raw,end:ft?ft[2].trim():'',date:'',tz:'(WIB)',first_date:'',rows:[],sat:null,st,pi:P.pi};
  m=txt.match(/^for\s+(.+)$/m);r.date=m?m[1].trim():'';
  const all=await findImages(P.pg,P.vp),imgs=all.filter(i=>i.top>(st?150:250)&&i.bottom-i.top>120);let im=imgs[imgs.length-1];
@@ -123,6 +139,7 @@ async function parseReport(P,st){
  const TR=/\d{1,2}\s*[:.]\s*\d{2}/,yMax=im?im.top:P.vp.height;
  const t0=P.items.filter(i=>i.y>hl.y+2&&i.y<yMax&&TR.test(i.s)).sort((a,b)=>a.y-b.y)[0],y0=t0?t0.y:hl.y+30;
  const hi=P.items.filter(i=>i.y>hl.y-14&&i.y<y0-6).sort((a,b)=>a.x0-b.x0),hdrTxt=hi.map(i=>i.s).join(' ');
+  r.hasBeaufort=/\b(?:BEAUFORT|BEAUFORT\s*SCALE|BF)\b/i.test(hdrTxt);
  m=hdrTxt.match(/\((WIB|WITA|WIT)\)/)||hdrTxt.match(/\((\w+)\)/);r.tz=m?'('+m[1]+')':'(WIB)';
  const cl=[];for(const i of hi){const c=cl[cl.length-1];c&&i.x0<=c.x1+4?(c.x1=Math.max(c.x1,i.x1)):cl.push({x0:i.x0,x1:i.x1})}
  const bnd=cl.slice(0,-1).map((c,k)=>(c.x1+cl[k+1].x0)/2),col=i=>bnd.filter(b=>b<(i.x0+i.x1)/2).length;
@@ -140,25 +157,35 @@ async function parseReport(P,st){
  return r}
 
 /* ---------- parse surat ---------- */
+function extractLetterMetadata(source){
+ const t=String(source||'').replace(/\s+/g,' ').trim();
+ const nm=t.match(/\b(?:Ref\.?\s*)?No\.?\s*[:;]?\s*([A-Z0-9][A-Z0-9./_-]*)/i);
+ const dm=t.match(/\bdated\s+((?:[A-Za-z]{3,}\s+\d{1,2},?\s+\d{4})|(?:\d{1,2}\s+[A-Za-z]{3,}\s+\d{4}))/i);
+ return {letter_number:nm?nm[1].replace(/[.,]+$/,'').trim():'',letter_date:dm?dm[1].replace(/[,;]+$/,'').trim():''};
+}
 function parseLetter(text){
  let ls=text.split('\n').map(l=>l.trim()).filter(Boolean);const s=ls.findIndex(l=>/^Ref\b/i.test(l));ls=ls.slice(Math.max(s,0));
  const val=p=>{for(const l of ls){const m=l.match(p);if(m)return m[1].trim()}return''};
- const d={ref:val(/^Ref\.?\s*[:;]\s*(.+)$/i),attach:val(/^Attach\w*\s*[:;]\s*(.+)$/i),to_company:'',to_lines:[],item1:'',herewith:'',item2:'',place_date:'',sincerely:'',behalf:'',chief:'',name:'',bullets:[]};
- const iTo=ls.findIndex(l=>/^To\s*[:;]/i.test(l)),i1=ls.findIndex((l,i)=>i>iTo&&/^1\s*[.)]\s/.test(l));if(iTo<0||i1<0)return d;
+ const d={ref:val(/^Ref\.?\s*[:;]\s*(.+)$/i),attach:val(/^Attach\w*\s*[:;]\s*(.+)$/i),to_company:'',to_lines:[],item1:'',item1Raw:'',letter_number:'',letter_date:'',analysis_type:'coordinate',herewith:'',item2:'',place_date:'',sincerely:'',behalf:'',chief:'',name:'',bullets:[]};
+ Object.assign(d,extractLetterMetadata(text));
+ const iTo=ls.findIndex(l=>/^T[o0]\s*[:;.]/i.test(l)),i1=ls.findIndex((l,i)=>i>iTo&&/^[1lI]\s*[.,)]\s/.test(l));if(iTo<0||i1<0)return d;
  const to=ls.slice(iTo+1,i1).map(l=>l.replace(/^JI\./,'Jl.'));d.to_company=to[0]||'';d.to_lines=to.slice(1);
  const iB=ls.map((l,i)=>i>i1&&/^\S{0,2}\s*(From|Coordinate)\b/.test(l)?i:-1).filter(i=>i>=0),fB=iB.length?iB[0]:i1+1;
- d.item1=ls.slice(i1,fB).join(' ').replace(/^1\s*[.)]\s*/,'');d.bullets_ocr=iB.map(i=>ls[i].replace(/^[^\w]{0,3}\s*/,''));
+ d.item1Raw=ls.slice(i1,fB).join(' ').replace(/^[1lI]\s*[.,)]\s*/,'');
+ const meta=extractLetterMetadata(d.item1Raw);if(meta.letter_number)d.letter_number=meta.letter_number;if(meta.letter_date)d.letter_date=meta.letter_date;
+ d.bullets_ocr=iB.map(i=>ls[i].replace(/^[^\w]{0,3}\s*/,''));
  const lB=iB.length?iB[iB.length-1]:fB,find=(p,st=0)=>{for(let i=st;i<ls.length;i++)if(p.test(ls[i]))return i;return-1};
  let i=find(/^here\s*with/i,lB);d.herewith=i>=0?ls[i]:'';i=find(/^2\s*[.,)]\s/,lB);d.item2=i>=0?ls[i].replace(/^2\s*[.,)]\s*/,''):'';
  for(const[k,p]of[['place_date',/^Jakarta\b/i],['sincerely',/^Sincerely/i],['behalf',/^on behalf/i],['chief',/^Chief/i]]){i=find(p,lB);d[k]=i>=0?ls[i]:''}
  const iC=find(/^Chief/i,lB);if(iC>=0)for(const l of ls.slice(iC+1)){const g=[...l].filter(c=>/[A-Za-z]|[ .,']/.test(c)).length/Math.max(l.length,1);if(l.length>=6&&g>=.85)d.name=l}
  return d}
 async function ocr(P){const cv=await renderPage(P.pg,DPI/72),x=cv.getContext('2d'),im=x.getImageData(0,0,cv.width,cv.height),a=im.data;
- for(let i=0;i<a.length;i+=4)if(a[i+2]-a[i]>45&&a[i+2]>120)a[i]=a[i+1]=a[i+2]=255;x.putImageData(im,0,0);
+ for(let i=0;i<a.length;i+=4){const mx=Math.max(a[i],a[i+1],a[i+2]);if(mx-Math.min(a[i],a[i+1],a[i+2])>45&&mx>110)a[i]=a[i+1]=a[i+2]=255}x.putImageData(im,0,0);
  log('OCR halaman surat (pertama kali memuat mesin OCR, mohon tunggu)…');
  if(!window.Tesseract)await new Promise((ok,no)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';s.onload=ok;s.onerror=no;document.head.appendChild(s)});
- const w=await Tesseract.createWorker('eng');await w.setParameters({tessedit_pageseg_mode:'6'});const{data}=await w.recognize(cv);await w.terminate();return data.text}
-async function findSig(){for(const pi in S.P){const P=S.P[pi],f=P.items.find(i=>i.s.toLowerCase()==='forecaster');if(!f)continue;
+ const w=await Tesseract.createWorker('eng');let best='',bs=-1;for(const psm of['6','4']){await w.setParameters({tessedit_pageseg_mode:psm});const{data}=await w.recognize(cv),sc=ocrScore(data.text);if(sc>bs){bs=sc;best=data.text}if(sc>=8)break}await w.terminate();return best}
+const ocrScore=t=>[/^\W*Ref/mi,/^\W*Attach/mi,/^\W*T[o0]\s*[:;.]/mi,/^\W*[1lI]\s*[.,)]/m,/From|Coordinate/,/here\s*with/i,/^\W*2\s*[.,)]/m,/Jakarta/,/Sincerely/i,/Chief/i].filter(r=>r.test(t)).length;
+async function findSig(){for(const pi in S.P){if(!S.D.reports.some(r=>r.pi==pi))continue;const P=S.P[pi],f=P.items.find(i=>i.s.toLowerCase()==='forecaster');if(!f)continue;
  const top=f.y-f.h,bot=f.y+f.h*.25,below=P.items.filter(i=>i.y-i.h>bot-2&&i.y-i.h<bot+90&&i.x0>f.x0-90&&i.x1<f.x1+90);
  const sg=(await findImages(P.pg,P.vp)).filter(i=>i.top>bot-5&&i.top<bot+90&&i.bottom-i.top<90);
  const X0=[f.x0,...below.map(i=>i.x0),...sg.map(i=>i.x0)],X1=[f.x1,...below.map(i=>i.x1),...sg.map(i=>i.x1)],Y1=[bot,...below.map(i=>i.y+i.h*.25),...sg.map(i=>i.bottom)];
@@ -169,10 +196,49 @@ async function findSig(){for(const pi in S.P){const P=S.P[pi],f=P.items.find(i=>
  o.getContext('2d').drawImage(c,x0,y0,o.width,o.height,0,0,o.width,o.height);return png(o)}return null}
 
 /* ---------- util ---------- */
-const BF=[1,4,7,11,17,22,28,34,41,48,56,64];
+const BF=[1,4,7,11,16,22,28,34,41,48,56,64];
 function beaufort(v){const n=(v.match(/\d+(?:[.,]\d+)?/g)||[]).map(x=>+x.replace(',','.'));if(!n.length)return'-';const a=BF.filter(t=>Math.min(...n)>=t).length,b=BF.filter(t=>Math.max(...n)>=t).length;return a===b?''+a:a+' - '+b}
 function splitDV(c){const l=c.split('\n').map(x=>x.trim()).filter(Boolean);return l.length&&/^[\d.,\s–\-—]+$/.test(l[l.length-1])?[l.slice(0,-1).join(' '),l[l.length-1]]:[l.join(' '),'']}
-function normDate(s){const m=s.replace(/,/g,'').match(/^([A-Za-z]+)\s+(\d+)\s+(\d{4})$/);return m?`${m[1]} ${+m[2]}, ${m[3]}`:s}
+const MONI={jan:0,feb:1,mar:2,apr:3,may:4,mei:4,jun:5,jul:6,aug:7,agu:7,agt:7,sep:8,oct:9,okt:9,nov:10,dec:11,des:11};
+function parseDate(s){s=String(s).replace(/,/g,' ');let m=s.match(/([A-Za-z]{3,})\s+(\d{1,2})\s+(\d{4})/),d,mo,y;if(m){[,mo,d,y]=m}else if(m=s.match(/(\d{1,2})\s+([A-Za-z]{3,})\s+(\d{4})/)){[,d,mo,y]=m}else return null;const k=MONI[mo.slice(0,3).toLowerCase()];return k==null?null:{m:k,d:+d,y:+y}}
+function normDate(s){const p=parseDate(s);return p?`${MON[p.m]} ${p.d}, ${p.y}`:s}   /* '19 January 2026' / 'January 19, 2026' -> 'January 19, 2026' */
+const isReport=t=>/^\s*Meteorolog\w*\s+Reports?\b/m.test(t)||(/WEATHER/.test(t)&&/WIND/.test(t)&&/CURRENT/.test(t));   /* judul di AWAL baris (kalimat surat 'meteorological report' tidak ikut) atau header tabel */
+function buildOpeningSentence(d){
+ const number=d.letter_number||'[EDIT REFERENCE NUMBER]';
+ const date=d.letter_date?normDate(d.letter_date):'[EDIT LETTER DATE]';
+ const relation=d.analysis_type==='route'?'along':'at';
+ return `With reference to your letter Ref. No. ${number} dated ${date}, regarding the request for meteorological analysis ${relation} the following coordinates:`;
+}
+function detectAnalysisType(d,reports=[]){
+ const usable=(reports||[]).filter(r=>String(r.start||'').trim()||String(r.end||'').trim());
+ if(usable.length)return usable.some(r=>String(r.start||'').trim()&&String(r.end||'').trim())?'route':'coordinate';
+ const bullets=d.bullets_ocr||[];
+ if(bullets.some(x=>/^\s*From\b/i.test(String(x))))return 'route';
+ if(bullets.some(x=>/^\s*Coordinate\b/i.test(String(x))))return 'coordinate';
+ return 'coordinate';
+}
+function sanitizeLetter(d,n,reports=[]){const al=s=>{const t=String(s).replace(/\s/g,'');return t?[...t].filter(c=>/[A-Za-z0-9.,'\-\/&()]/.test(c)).length/t.length:0};
+ if(!/^\d+\s*sheets?$/i.test(d.attach||''))d.attach=n?`${n} sheets`:'';   /* jumlah lembar = jumlah halaman laporan */
+ if(!(d.to_company.length>=3&&al(d.to_company)>=.75)){d.to_company='';d.to_lines=[]}
+ d.to_lines=d.to_lines.filter(l=>l.length>=4&&al(l)>=.8);
+ d.analysis_type=detectAnalysisType(d,reports);
+ d.item1=buildOpeningSentence(d);
+ if(!/^here\s*with/i.test(d.herewith))d.herewith='';if(!/^we\s+hope/i.test(d.item2))d.item2='';
+ if(!(/^Jakarta/i.test(d.place_date)&&/\d{4}/.test(d.place_date)))d.place_date='';return d}   /* kalimat pembuka dibuat dari metadata OCR + struktur laporan */
+/* ---------- koordinat: baca banyak format (desimal, derajat-menit, DMS) & ikuti gaya contoh template ---------- */
+const CRE=/(-?\d{1,3}(?:[.,]\d+)?)\s*([°˚º])\s*(?:(\d{1,2}(?:[.,]\d+)?)\s*(['’′`´])\s*)?(?:(\d{1,2}(?:[.,]\d+)?)\s*(["”″]|''|’’)\s*)?([NSEWnsew])(?![A-Za-z])/g,numf=x=>parseFloat(String(x).replace(',','.'));
+function coordTokens(t){t=String(t);const o=[];for(const m of t.matchAll(CRE)){const h=m[7].toUpperCase(),v=(numf(m[1])+(m[3]?numf(m[3])/60:0)+(m[5]?numf(m[5])/3600:0))*(h==='S'||h==='W'?-1:1);
+  o.push({v,lat:h==='N'||h==='S',s:m.index,e:m.index+m[0].length,m,dec:((m[5]||m[3]||m[1]).split(/[.,]/)[1]||'').length})}
+ if(o.length<2){const d=t.match(/(-?\d{1,3}[.,]\d+)\s*[,;\/ ]\s*(-?\d{1,3}[.,]\d+)/);if(d)return[{v:numf(d[1]),lat:true,s:d.index,e:d.index+d[1].length,m:null,dec:4},{v:numf(d[2]),lat:false,s:d.index+d[0].length-d[2].length,e:d.index+d[0].length,m:null,dec:4}]}
+ return o}
+function coordStyle(t){const k=coordTokens(t);if(k.length<2||!k[0].m||!k[1].m)return null;const a=k[0].m,b=k[1].m;
+ return{type:a[5]?'dms':a[3]?'dm':'dd',dec:k[0].dec,dg:a[2],mn:a[4]||'',sc:a[6]||'',hs:/\s$/.test(a[0].slice(0,-1)),sep:' / ',w1:a[1].replace('-','').split(/[.,]/)[0].length,w2:b[1].replace('-','').split(/[.,]/)[0].length,pad:[a[3],b[3]].some(x=>x&&/^0\d/.test(x))}}
+function fmtOne(v,lat,st){const h=lat?(v<0?'S':'N'):(v<0?'W':'E'),a=Math.abs(v),w=lat?st.w1:st.w2,P=(n,l)=>String(n).padStart(l,'0');let d=Math.floor(a+1e-9),m=(a-d)*60;
+ if(st.type==='dd'){const[i,f]=a.toFixed(st.dec).split('.');return P(i,w)+(f?'.'+f:'')+st.dg+(st.hs?' ':'')+h}
+ if(st.type==='dm'){m=+m.toFixed(st.dec);if(m>=60){d++;m-=60}const[mi,mf]=m.toFixed(st.dec).split('.');return P(d,w)+st.dg+(st.pad?P(mi,2):mi)+(mf?'.'+mf:'')+st.mn+(st.hs?' ':'')+h}
+ let sc=(m-Math.floor(m))*60;m=Math.floor(m+1e-9);sc=+sc.toFixed(st.dec);if(sc>=60){m++;sc-=60}if(m>=60){d++;m-=60}return P(d,w)+st.dg+P(m,2)+st.mn+sc.toFixed(st.dec)+st.sc+(st.hs?' ':'')+h}
+function normCoord(t,st){if(!st||!t)return t;const k=coordTokens(t);if(k.length<2)return t;let o='',p=0;
+ for(let i=0;i+1<k.length;i+=2){let a=k[i],b=k[i+1];if(!a.lat&&b.lat)[a,b]=[b,a];o+=t.slice(p,k[i].s)+fmtOne(a.v,true,st)+st.sep+fmtOne(b.v,false,st);p=k[i+1].e}return o+t.slice(p)}
 
 /* ---------- DOCX ---------- */
 const NW='http://schemas.openxmlformats.org/wordprocessingml/2006/main',NWP='http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing',NA='http://schemas.openxmlformats.org/drawingml/2006/main',NR='http://schemas.openxmlformats.org/officeDocument/2006/relationships';
@@ -184,6 +250,8 @@ function setText(r,t){ch(r,'t').forEach(x=>x.remove());const e=r.ownerDocument.c
 function fill(p,tx){if(!p)return;if(typeof tx==='string')tx=[tx];const c=f1(f1(f1(p,'pPr'),'rPr'),'color');if(yel(c))c.remove();
  groups(p).forEach((g,i)=>{const t=g.filter(r=>!hasDraw(r));if(!t.length)return;setText(t[0],tx[i]??'');t.slice(1).forEach(r=>r.remove())})}
 function fillValue(p,v){if(!p)return;ch(p,'r').forEach(r=>{if(!isY(r)&&rt(r)===' ')r.remove()});fill(p,v+' ')}
+function unY(p){if(!p)return;const c=f1(f1(f1(p,'pPr'),'rPr'),'color');if(yel(c))c.remove();ch(p,'r').forEach(r=>{const k=cEl(r);if(yel(k))k.remove()})}   /* pertahankan teks template, hanya hilangkan warna kuning */
+const fl=(p,v)=>{if(!p)return;v?fill(p,v):unY(p)};   /* isi dari PDF; bila kosong -> pakai teks template */
 function swapPic(par,s,rid,id){const an=par.getElementsByTagNameNS(NWP,'anchor')[0]||par.getElementsByTagNameNS(NWP,'inline')[0];if(!an)return;
  const ex=[...an.children].find(c=>c.localName==='extent'),cx=+ex.getAttribute('cx'),cy=Math.round(cx*s.h/s.w);ex.setAttribute('cy',cy);
  [...an.getElementsByTagNameNS(NA,'xfrm')].forEach(x=>{const e=[...x.children].find(c=>c.localName==='ext');if(e){e.setAttribute('cx',cx);e.setAttribute('cy',cy)}});
@@ -198,24 +266,29 @@ async function build(){
  const P=()=>ch(body,'p');let paras=P();
  const fp=(pr,st=0)=>{for(let i=st;i<paras.length;i++)if(pr(paras[i]))return i;throw new Error('Paragraf template tidak ditemukan (cek teks kuning di template)')};
  const noLetter=!paras.some(p=>pt(p).startsWith('Ref'));S.noLetter=noLetter;
- const kids0=[...body.children],isBr=e=>e.localName==='p'&&[...e.getElementsByTagNameNS(NW,'br')].some(b=>b.getAttributeNS(NW,'type')==='page');
+ const kids0=[...body.children],isBr=e=>e.localName==='p'&&([...e.getElementsByTagNameNS(NW,'br')].some(b=>b.getAttributeNS(NW,'type')==='page')||!!f1(f1(e,'pPr'),'pageBreakBefore'));
  const iS0=kids0.findIndex(isBr),st0=noLetter?0:iS0;if(!noLetter&&iS0<0)throw new Error('Template punya halaman surat tetapi tidak ada page break sebelum halaman laporan');
  const iE=kids0.findIndex((e,i)=>i>st0&&isBr(e)),end=iE<0?kids0.length:iE;   // prototipe = HANYA 1 halaman laporan pertama
  S.auto=!ds(body,'r').some(r=>isY(r)&&rt(r)!=='');   /* run kuning KOSONG tidak dihitung */
  if(S.auto)autoMark(kids0.slice(0,st0),kids0.slice(st0,end));
+ const cp0=kids0.slice(st0,end).find(e=>e.localName==='p'&&pt(e).startsWith('Coordinate')),bs0=paras.find(p=>pt(p).startsWith('●')&&hy(p));
+ const cst=(cp0&&coordStyle(yText(cp0)))||(bs0&&coordStyle(pt(bs0)))||null;   /* gaya koordinat contoh di template */
+ const RS=D.reports.map(r=>({...r,start:normCoord(r.start,cst),end:normCoord(r.end,cst)}));S.out=[];
  if(!noLetter){
- if(!L.bulletsManual){const sm=paras.find(p=>pt(p).startsWith('●')&&hy(p));L.bullets=D.reports.map(r=>bulletText(r,sm?pt(sm):''))}
- if(L.ref)fill(paras[fp(p=>pt(p).startsWith('Ref'))],L.ref);   /* Ref kosong = biarkan isi template (diganti manual) */fill(paras[fp(p=>pt(p).startsWith('Attach'))],L.attach);
+ if(!L.bulletsManual){const sm=paras.find(p=>pt(p).startsWith('●')&&hy(p));L.bullets=RS.map(r=>bulletText(r,sm?pt(sm):''))}
+ if(L.ref)fl(paras[fp(p=>pt(p).startsWith('Ref'))],L.ref);   /* Ref kosong = biarkan isi template (diganti manual) */
+ fl(paras[fp(p=>pt(p).startsWith('Attach'))],L.attach);
  const iTo=fp(p=>pt(p).trim().startsWith('To')),addr=[];for(const p of paras.slice(iTo+1)){if(hy(p))addr.push(p);else break}
  if(!addr.length)throw new Error('Alamat "To :" kuning tidak ditemukan di template');
- const proto=(addr[1]||addr[0]).cloneNode(true);fill(addr[0],L.to_company);let last=addr[0];
- for(const t of L.to_lines){const nw=proto.cloneNode(true);fill(nw,t);last.after(nw);last=nw}addr.slice(1).forEach(p=>p.remove());
- paras=P();const num=paras.filter(p=>f1(f1(p,'pPr'),'numPr')&&hy(p));fill(num[0],L.item1);fill(num[1],L.item2);
+ if(L.to_company||L.to_lines.length){const proto=(addr[1]||addr[0]).cloneNode(true);fl(addr[0],L.to_company);let last=addr[0];
+ for(const t of L.to_lines){const nw=proto.cloneNode(true);fill(nw,t);last.after(nw);last=nw}addr.slice(1).forEach(p=>p.remove())}else addr.forEach(unY);
+ paras=P();const num=paras.filter(p=>f1(f1(p,'pPr'),'numPr')&&hy(p));fl(num[0],L.item1);if(num[0]&&L.item1){const txt=pt(num[0]);for(const token of ['[EDIT REFERENCE NUMBER]','[EDIT LETTER DATE]']){const at=txt.indexOf(token);if(at>=0)markRange(num[0],at,at+token.length)}}fl(num[1],L.item2);
  const bul=paras.filter(p=>pt(p).startsWith('●')&&hy(p));
- if(bul.length){const an=bul[0];last=an;bul.slice(1).forEach(p=>p.remove());for(const t of L.bullets){const nw=an.cloneNode(true);fill(nw,'● '+t);last.after(nw);last=nw}an.remove()}
- paras=P();const F=(s,v)=>{const i=fp(p=>hy(p)&&pt(p).startsWith(s));fill(paras[i],v);return i};
+ if(bul.length&&!L.bullets.length)bul.forEach(unY);
+ if(bul.length&&L.bullets.length){const an=bul[0];let last=an;bul.slice(1).forEach(p=>p.remove());for(const t of L.bullets){const nw=an.cloneNode(true);fill(nw,'● '+t);last.after(nw);last=nw}an.remove()}
+ paras=P();const F=(s,v)=>{const i=fp(p=>pt(p).startsWith(s)&&(hy(p)||!v));fl(paras[i],v);return i};
  F('here',L.herewith);F('Jakarta',L.place_date);F('Sincerely',L.sincerely);F('on behalf',L.behalf);const iCh=F('Chief',L.chief);
- if(GANTI_NAMA&&L.name){const i=fp(p=>pt(p).trim()!=='',iCh+1),rs=ch(paras[i],'r');setText(rs[0],L.name);rs.slice(1).forEach(r=>r.remove())}
+ if(L.name){const i=fp(p=>pt(p).trim()!=='',iCh+1),rs=ch(paras[i],'r');setText(rs[0],L.name);rs.slice(1).forEach(r=>r.remove())}
  }
  /* cegah halaman kosong: (1) buang paragraf kosong di akhir surat, (2) page-break paragraf mandiri -> pageBreakBefore di judul laporan */
  if(!noLetter){let e=kids0[st0].previousElementSibling;while(e&&e.localName==='p'&&!pt(e).trim()&&!e.getElementsByTagNameNS(NW,'drawing').length&&!e.getElementsByTagNameNS(NW,'br').length&&!e.getElementsByTagNameNS(NW,'sectPr').length){const pv=e.previousElementSibling;e.remove();e=pv}}
@@ -225,24 +298,31 @@ async function build(){
  const pb=()=>{const p=doc.createElementNS(NW,'w:p'),r=doc.createElementNS(NW,'w:r'),b=doc.createElementNS(NW,'w:br');b.setAttributeNS(NW,'w:type','page');r.appendChild(b);p.appendChild(r);return p};
  let did=1000,sigPar=null;
  let ri=0;
- for(const rep of D.reports){const blk=protos.map(e=>e.cloneNode(true)),pars=blk.filter(e=>e.localName==='p');
+ for(const rep of RS){const blk=protos.map(e=>e.cloneNode(true)),pars=blk.filter(e=>e.localName==='p');
   blk.forEach(e=>[...e.getElementsByTagNameNS(NWP,'docPr')].filter(d=>d.getAttribute('name')==='Forecaster signature').forEach(d=>{let r=d;while(r&&r.localName!=='r')r=r.parentNode;if(r)r.remove()}));
-  {const cp=pars.find(p=>pt(p).startsWith('Coordinate'));fill(cp,groups(cp).length>=2?[rep.start+' ',rep.end]:[coordText(rep)+' '])}{const fp2=pars.find(p=>pt(p).startsWith('for '));fill(fp2,styleFor(rep,yText(fp2)))}
+  const cp=pars.find(p=>pt(p).startsWith('Coordinate'));fill(cp,groups(cp).length>=2?[rep.start+' ',rep.end]:[coordText(rep)+' ']);const fp2=pars.find(p=>pt(p).startsWith('for '));fill(fp2,styleFor(rep,yText(fp2)));
   const tbl=blk.find(e=>e.localName==='tbl'),trs=ch(tbl,'tr'),[hdr,ft,nt0]=trs,nt=nt0||ft;
+   if(!rep.hasBeaufort){[hdr,ft,nt0].filter(Boolean).forEach(tr=>{const cells=ch(tr,'tc');if(cells.length>6)cells[cells.length-1].remove()});const grid=f1(tbl,'tblGrid');if(grid){const cols=ch(grid,'gridCol');if(cols.length>6)cols[cols.length-1].remove()}}
   ds(hdr,'p').forEach(p=>{if(hy(p))fill(p,rep.tz)});trs.slice(1).forEach(t=>t.remove());
   rep.rows.forEach((c,k)=>{const tr=(k?nt:ft).cloneNode(true),tc=ch(tr,'tc'),pp=x=>f1(x,'p');
    if(!k)fill(pp(tc[0]),styleDate(rep,yText(pp(tc[0]))));fill(pp(tc[1]),styleTime(c[1].replace(/\n/g,' '),yText(pp(tc[1]))));fill(pp(tc[2]),c[2].replace(/\n/g,' '));
    [[tc[3],c[3]],[tc[4],c[4]]].forEach(([t,x])=>{const[d,v]=splitDV(x),ps=ch(t,'p'),cm=d&&/,\s*$/.test(yText(ps[0]))?',':'';fill(ps[0],d+cm);fillValue(ps[1],v)});
-   fill(pp(tc[5]),c[5].replace(/\n/g,' '));fill(pp(tc[6]),HITUNG_BEAUFORT?beaufort(splitDV(c[3])[1]):'-');tbl.appendChild(tr)});
+   fill(pp(tc[5]),c[5].replace(/\n/g,' '));if(rep.hasBeaufort&&tc[6])fill(pp(tc[6]),HITUNG_BEAUFORT?beaufort(splitDV(c[3])[1]):'-');else if(!rep.hasBeaufort&&tc.length>6)tc[tc.length-1].remove();tbl.appendChild(tr)});
   const ap=[...pars].reverse().find(p=>p.getElementsByTagNameNS(NW,'drawing').length);
   if(ap){if(rep.sat)swapPic(ap,rep.sat,addImg(rep.sat.bytes),did++);else ch(ap,'r').forEach(r=>{if(hasDraw(r))r.remove()});sigPar=ap}
+  S.out[ri]={coord:pt(cp),forT:pt(fp2),rows:ch(tbl,'tr').slice(1).map(tr=>ch(tr,'tc').slice(1).map(tc=>ds(tc,'p').map(pt).join(' / ')))};
   if(noLetter&&ri>0){const f0=blk[0];if(f0&&f0.localName==='p')pbBefore(f0);else sect.before(pb())}ri++;blk.forEach(e=>sect.before(e))}
- if(D.sig&&sigPar){const cy=Math.round(TTD_H*914400),cx=Math.round(cy*D.sig.w/D.sig.h),ph=+f1(sect,'pgSz').getAttributeNS(NW,'h')*635;
-  const el=new DOMParser().parseFromString(sigXml(addImg(D.sig.bytes),cx,cy,Math.round(ph-cy-TTD_BAWAH*914400),did+1),'application/xml').documentElement;sigPar.appendChild(doc.importNode(el,true))}
+ const sm=D.sigManual||{},SGm=sm.on&&sm.png?sm.png:null,SG=SGm||(sm.off?null:D.sig);   /* manual (jika aktif) > dari PDF; 'off' = sengaja tanpa TTD */
+ if(SG&&sigPar){const cy=SGm?Math.round(SG.h/DPI*914400):Math.round(TTD_H*914400),cx=Math.round(cy*SG.w/SG.h),ph=+f1(sect,'pgSz').getAttributeNS(NW,'h')*635;
+  const el=new DOMParser().parseFromString(sigXml(addImg(SG.bytes),cx,cy,Math.round(ph-cy-TTD_BAWAH*914400),did+1),'application/xml').documentElement;sigPar.appendChild(doc.importNode(el,true))}
  const left=ds(body,'p').filter(hy).map(pt);
  zip.file('word/document.xml',new XMLSerializer().serializeToString(doc));zip.file('word/_rels/document.xml.rels',rels.replace('</Relationships>',add+'</Relationships>'));
  if(!/Extension="png"/i.test(ct))zip.file('[Content_Types].xml',ct.replace('</Types>','<Default Extension="png" ContentType="image/png"/></Types>'));
- return{blob:await zip.generateAsync({type:'blob',mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'}),left}}
+ const MIME='application/vnd.openxmlformats-officedocument.wordprocessingml.document',real=await zip.generateAsync({type:'blob',mimeType:MIME});
+ /* salinan untuk preview/PDF-cetak: pustaka preview tidak mengenali pageBreakBefore -> ganti dengan paragraf page-break eksplisit (HANYA di salinan ini) */
+ ds(body,'p').forEach(p=>{const q=f1(f1(p,'pPr'),'pageBreakBefore');if(q){q.remove();p.before(pb())}});
+ zip.file('word/document.xml',new XMLSerializer().serializeToString(doc));
+ return{blob:real,pblob:await zip.generateAsync({type:'blob',mimeType:MIME}),left}}
 
 /* ---------- template berisi data: tandai otomatis jadi "kuning" ---------- */
 const setY=r=>{const d=r.ownerDocument;let rp=f1(r,'rPr');if(!rp){rp=d.createElementNS(NW,'w:rPr');r.insertBefore(rp,r.firstChild)}let c=f1(rp,'color');if(!c){c=d.createElementNS(NW,'w:color');rp.appendChild(c)}c.setAttributeNS(NW,'w:val','FFFF00')};
@@ -277,7 +357,9 @@ function styleDate(rep,s){const m=normDate(rep.date).replace(/,/g,'').match(/^\s
  if(m){const mon=m[1][0].toUpperCase()+m[1].slice(1).toLowerCase(),sm=s.match(/^\s*([A-Za-z]+)\s+\d/);
   if(MON.includes(mon)&&sm&&MON.some(x=>x.slice(0,3).toLowerCase()===sm[1].slice(0,3).toLowerCase()))return`${sm[1].length===3?mon.slice(0,3):mon} ${+m[2]}, ${m[3]}`}
  return rep.first_date}
-const styleFor=(rep,s)=>/\b[A-Za-z]+\s[1-9],\s*\d{4}/.test(s)?normDate(rep.date):rep.date;   // 'July 3, 2026' (tanpa nol) bila contoh begitu
+const styleFor=(rep,s)=>{const p=parseDate(rep.date);if(!p)return rep.date;const n=`${MON[p.m]} ${p.d}, ${p.y}`;
+ if(/\b[A-Za-z]+\s[1-9],/.test(s))return n;if(/\b[A-Za-z]+\s0\d,/.test(s))return`${MON[p.m]} ${String(p.d).padStart(2,'0')}, ${p.y}`;
+ return /^[A-Za-z]+\s\d{1,2},\s*\d{4}$/.test(String(rep.date).trim())?rep.date:n};
 const coordText=r=>r.end?`from ${r.start} to ${r.end}`:r.start;
 const bulletText=(r,s)=>{const d=normDate(r.date);return(/Coordinate/i.test(s||'')||!r.end)?`Coordinate: ${coordText(r)} for ${d}`:`From ${r.start} to ${r.end} for ${d}`};
 
@@ -286,63 +368,108 @@ function pbBefore(p){const d=p.ownerDocument;let pp=f1(p,'pPr');if(!pp){pp=d.cre
 
 /* ---------- QC ---------- */
 function qc(i){const D=S.D,o=[];
- if(i===0){const L=D.letter;['to_company','item1','place_date','name'].forEach(k=>{if(!L[k])o.push(['w','Kosong: '+k])});if(!L.bullets.length)o.push(['e','Bullet kosong']);if(!D.sig)o.push(['w','Tanda tangan Forecaster tidak ditemukan'])}
+ if(i<0){const m=D.sigManual||{};if(!(D.sig||m.on||m.off))o.push(['w','TTD Forecaster belum ada — tambahkan lewat panel ini']);return o}
+ if(i===0){const L=D.letter;if(!L.bullets.length)o.push(['w','Bullet kosong (isi bullet dari template dipakai)'])}
  else{const r=D.reports[i-1];if(!r.rows.length)o.push(['e','Tabel gagal ditarik']);else{const em=r.rows.reduce((a,c)=>a+[1,2,3,4,5].filter(k=>!c[k].trim()).length,0);if(em)o.push(['w',em+' sel tabel kosong'])}
-  if(!r.sat)o.push(['w','Gambar satelit tidak ditemukan']);['start','date'].forEach(k=>{if(!r[k])o.push(['w','Kosong: '+k])});if(!r.first_date)o.push(['w','Tanggal kolom pertama kosong'])}
+  if(!r.sat)o.push(['w','Gambar satelit tidak ditemukan']);if(r.start&&coordTokens(r.start).length<2)o.push(['w','Format koordinat tidak dikenali (periksa)']);
+  if(r.rows.some(c=>c[1]&&!/\d{1,2}\s*[:.]\s*\d{2}/.test(c[1])))o.push(['w','Ada kolom waktu yang bukan jam']);
+  ['start','date'].forEach(k=>{if(!r[k])o.push(['w','Kosong: '+k])});if(!r.first_date)o.push(['w','Tanggal kolom pertama kosong'])}
  return o}
 const lvl=i=>{const q=qc(i);return q.some(x=>x[0]==='e')?'er':q.length?'wr':'ok'};
 
 /* ---------- UI ---------- */
-const STEPS=['Upload PDF','Upload Template','Transfer data','Preview','Regenerate','Edit','Download'],canGo=n=>n<=2||(n===3?!!(S.pdf&&S.tpl):!!S.D);S.step=1;S.sel=0;
-const pages=()=>S.noLetter?S.D.reports.map((_,k)=>k+1):[0,...S.D.reports.map((_,k)=>k+1)],ptitle=i=>i?`Laporan ${i} — ${S.D.reports[i-1].date||'?'}`:'Surat pengantar';
-function steps(){$('#steps').innerHTML=STEPS.map((t,k)=>{const n=k+1,d=(n===1&&S.pdf)||(n===2&&S.tpl)||(n===3&&S.D);return `<button data-go="${n}" class="${S.step===n?'cur':d?'done':''}" ${canGo(n)?'':'disabled'}><i>${d&&S.step!==n?'✓':n}</i>${t}</button>`}).join('');
- $('#nx1').disabled=!S.pdf;$('#nx2').disabled=!S.tpl;$('#nx3').disabled=!S.D;$('#go').disabled=!(S.pdf&&S.tpl);
+const STEPS=[{label:'1 · Upload',step:1,done:()=>!!(S.pdf&&S.tpl)},{label:'2 · Preview & Edit',step:6,done:()=>!!S.D},{label:'3 · Download',step:7,done:()=>!!S.D}],canGo=n=>n===1||((n===6||n===7)&&!!S.D)||(n===3&&!!(S.pdf&&S.tpl));S.step=1;S.sel=0;
+const pages=()=>S.noLetter?S.D.reports.map((_,k)=>k+1):[0,...S.D.reports.map((_,k)=>k+1)],ptitle=i=>i?`Hari ${i} — ${S.D.reports[i-1].date||'?'}`:'Surat pengantar';
+function steps(){$('#steps').innerHTML=STEPS.map((t)=>{const active=(S.step===t.step)||(t.step===6&&(S.step===4||S.step===5));const d=t.done();return `<button data-go="${t.step}" class="${active?'cur':d?'done':''}" ${canGo(t.step)?'':'disabled'}><i>${d&&!active?'✓':t.label[0]}</i>${t.label}</button>`}).join('');
+ $('#go').disabled=!(S.pdf&&S.tpl);
  $('#sum').innerHTML=`PDF: <b>${esc($('#n-pdf').textContent)}</b><br>Template: <b>${esc($('#n-tpl').textContent)}</b>${S.auto===undefined?'':'<br>Mode template: <b>'+(S.auto?'berisi data lama (ditandai otomatis)':'penanda kuning')+'</b>'}`}
 async function go(n){if(n==='prev')n=S.step-1;if(n==='next')n=S.step+1;n=+n;if(n<1||n>7||!canGo(n))return;S.step=n;document.body.dataset.step=n;steps();scrollTo(0,0);
- if(n===4||n===6){renderNav();renderNotice();if(n===6)renderForm();fit();viewPdf();scrollDoc()}if(n===5)renderRg();if(n===7)renderDl()}
-function renderNav(){$('#nav').innerHTML=pages().map(i=>`<button class="chip ${S.sel===i?'s':''}" data-i="${i}"><b class="dot ${lvl(i)}"></b>${i?'Laporan '+i:'Surat'}${i&&!S.D.reports[i-1].sat?' 🛰':''}</button>`).join('')}
+ if(n===4||n===6){renderNav();renderNotice();if(n===6)renderForm()}if(n===5)renderRg();if(n===7)renderDl()}
+function renderNav(){$('#nav').innerHTML=pages().map(i=>`<button class="chip ${S.sel===i?'s':''}" data-i="${i}"><b class="dot ${lvl(i)}"></b>${i?'Hari '+i:'Surat'}${i&&!S.D.reports[i-1].sat?' 🛰':''}</button>`).join('')+`<button class="chip ${S.sel===-1?'s':''}" data-i="-1"><b class="dot ${lvl(-1)}"></b>✍ TTD Forecaster</button>`}
 function renderNotice(){const i=S.sel,q=qc(i);let h='';
- if(i&&!S.D.reports[i-1].sat)h+=`<div class="note sat"><span>🛰 <b>Gambar satelit Laporan ${i} tidak ditemukan di PDF</b> — buat frame di Citra Satelit lalu tempel ke sini.</span><button class="sat-btn" data-act="frame">Buka Frame Citra Satelit</button><button class="g" data-act="pick">Upload gambar…</button></div>`;
- const o=q.filter(x=>!/satelit/i.test(x[1]));if(o.length)h+=`<div class="note">⚠ ${o.map(x=>x[1]).join(' · ')}</div>`;$('#notice').innerHTML=h}
+ if(i===S.D.reports.length&&i>0&&lvl(-1)!=='ok')h+=`<div class="note sat"><span>✍ <b>TTD Forecaster tidak ditemukan di PDF</b> — tambahkan lewat panel TTD Forecaster.</span><button class="sat-btn" data-i="-1">Tambah TTD Forecaster</button></div>`;
+ if(i>0&&!S.D.reports[i-1].sat)h+=`<div class="note sat"><span>🛰 <b>Gambar satelit Hari ${i} tidak ditemukan di PDF</b> — buat frame di Citra Satelit lalu tempel ke sini.</span><button class="sat-btn" data-act="frame">Buka Frame Citra Satelit</button><button class="g" data-act="pick">Upload gambar…</button></div>`;
+ const o=q.filter(x=>!/satelit/i.test(x[1]));if(o.length&&i>=0)h+=`<div class="note">⚠ ${o.map(x=>x[1]).join(' · ')}</div>`;$('#notice').innerHTML=h}
 function renderRg(){$('#rg').innerHTML=pages().map(i=>{const q=qc(i).map(x=>x[1]).join(' · '),l=lvl(i),r=i&&S.D.reports[i-1];
  return `<div class="rrow"><b class="dot ${l}"></b><div class="rt"><b>${esc(ptitle(i))}</b><small>${q||'Tidak ada masalah terdeteksi'}${r?` · strategi ${r.st%GAPS.length+1}/${GAPS.length}`:''}</small></div><div class="row" style="margin:0">${r&&!r.sat?`<button class="sat-btn" data-act="frame" data-i2="${i}">🛰 Frame Citra Satelit</button>`:''}${r?`<button data-act="retry1" data-i2="${i}">↻ Regenerate</button>`:''}<button data-act="view" data-i2="${i}">Lihat</button></div></div>`}).join('')}
-function renderDl(){const c={ok:0,wr:0,er:0},all=pages();all.forEach(i=>c[lvl(i)]++);const todo=all.filter(i=>lvl(i)!=='ok');
- $('#dl').innerHTML=`<div class="sum"><div><b class="dot ok"></b> ${c.ok} OK</div><div><b class="dot wr"></b> ${c.wr} Cek</div><div><b class="dot er"></b> ${c.er} Gagal</div></div>`+(todo.length?`<p class="sub">Masih perlu dicek: ${todo.map(i=>i?'Laporan '+i:'Surat').join(', ')}. Anda tetap bisa mengunduh lalu memperbaikinya di Word.</p>`:'<p class="sub">Semua halaman lolos pengecekan otomatis. Tetap bandingkan dengan PDF di Preview.</p>')+`<label>Nama file</label><div class="row" style="margin:0"><input id="fname" style="flex:1;min-width:220px;font-size:15px;padding:9px" value="${esc(S.fname??'Hasil_'+S.name)}"><span style="align-self:center;color:var(--m)">.docx</span></div><div class="row"><button class="p big" data-act="dl">⬇ Simpan sebagai…</button></div><p class="sub" style="margin-top:10px">Di Chrome/Edge akan muncul dialog "Simpan sebagai" untuk memilih folder dan nama. Di browser lain, file diunduh memakai nama di atas.</p>`}
-const ta=(p,v,arr)=>`<textarea data-p="${p}" ${arr?'data-arr=1':''} rows="${arr?Math.max(2,v.length):1}">${esc(arr?v.join('\n'):v)}</textarea>`,inp=(p,v)=>`<input data-p="${p}" value="${esc(v)}">`;
+function renderDl(){const c={ok:0,wr:0,er:0},all=pages();all.forEach(i=>c[lvl(i)]++);const todo=all.filter(i=>lvl(i)!=='ok');if(lvl(-1)!=='ok')todo.push(-1);
+ $('#dl').innerHTML=`<div class="sum"><div><b class="dot ok"></b> ${c.ok} OK</div><div><b class="dot wr"></b> ${c.wr} Cek</div><div><b class="dot er"></b> ${c.er} Gagal</div></div>`+(todo.length?`<p class="sub">Masih perlu dicek: ${todo.map(i=>i<0?'TTD Forecaster':i?'Hari '+i:'Surat').join(', ')}. Anda tetap bisa mengunduh lalu memperbaikinya di Word.</p>`:'<p class="sub">Semua halaman lolos pengecekan otomatis. Periksa kembali data dan hasil akhir setelah diunduh.</p>')+`<label>Nama file</label><div class="row" style="margin:0"><input id="fname" style="flex:1;min-width:220px;font-size:15px;padding:9px" value="${esc(S.fname??'Hasil_'+S.name)}"><span style="align-self:center;color:var(--m)">.docx</span></div><div class="row"><button class="p big" data-act="dl">⬇ Simpan DOCX…</button></div>`}
+const ta=(p,v,arr)=>`<textarea data-p="${p}" ${arr?'data-arr=1':''} rows="${arr?Math.max(2,v.length):Math.max(1,String(v).split('\n').length)}">${esc(arr?v.join('\n'):v)}</textarea>`,inp=(p,v)=>`<input data-p="${p}" value="${esc(v)}">`,fld=(l,h,c)=>`<div class="${c||''}"><label>${l}</label>${h}</div>`;
 function renderForm(){const D=S.D,i=S.sel,iss=qc(i).map(x=>`<div class="iss ${x[0]==='e'?'e':''}">⚠ ${x[1]}</div>`).join('');let h='';
- if(!i){const L=D.letter;h=`<b>Edit surat</b>${iss}`+[['Ref','ref'],['Attach','attach'],['To (perusahaan)','to_company']].map(([a,k])=>`<label>${a}</label>${inp('letter.'+k,L[k])}`).join('')
-  +`<label>To (baris alamat)</label>${ta('letter.to_lines',L.to_lines,1)}<label>Butir 1</label>${ta('letter.item1',L.item1)}<label>Bullet (satu per baris)</label>${ta('letter.bullets',L.bullets,1)}`
-  +[['Here with','herewith'],['Butir 2','item2'],['Tempat, tanggal','place_date'],['Sincerely','sincerely'],['On behalf','behalf'],['Jabatan','chief'],['Nama penandatangan','name']].map(([a,k])=>`<label>${a}</label>${inp('letter.'+k,L[k])}`).join('')
-  +`<div class="row"><button data-act="sync">Sinkron bullet dari laporan</button></div>`}
- else{const r=D.reports[i-1],b=`reports.${i-1}.`;h=`<b>Edit laporan ${i}</b>${iss}<label>Koordinat dari</label>${inp(b+'start',r.start)}<label>Koordinat ke (kosongkan bila koordinat titik tunggal)</label>${inp(b+'end',r.end)}<label>Tanggal</label>${inp(b+'date',r.date)}<label>Zona waktu</label>${inp(b+'tz',r.tz)}<label>Tanggal kolom pertama</label>${inp(b+'first_date',r.first_date)}
-  <label>Tabel (arah & nilai di sel angin/arus dipisah baris baru)</label><div style="overflow:auto"><table><tr><th>Waktu<th>Cuaca<th>Angin<th>Arus<th>Gelombang<th>Bf<th></tr>${r.rows.map((c,k)=>`<tr>${[1,2,3,4,5].map(j=>`<td>${ta(`${b}rows.${k}.${j}`,c[j])}</td>`).join('')}<td>${beaufort(splitDV(c[3])[1])}</td><td><button data-act="del" data-k="${k}">×</button></td></tr>`).join('')}</table></div>
-  <div class="row"><button data-act="add">+ Baris</button><button data-act="retry">↻ Coba ulang halaman ini (strategi ${r.st%GAPS.length+1}/${GAPS.length})</button></div><label>Gambar satelit</label>${r.sat?`<img src="${r.sat.url}" style="max-width:100%;border-radius:4px">`:''}<div class="row"><button class="sat-btn" data-act="frame">🛰 Buka Frame Citra Satelit</button><button data-act="pick">Upload gambar…</button><button data-act="copysat" ${r.sat?'':'disabled'}>Salin gambar ini</button></div><small style="color:var(--m)">Bisa juga tempel gambar langsung dengan Ctrl+V di halaman ini.</small>`}
+ if(i<0){const m=D.sigManual||(D.sigManual={on:false,off:false,title:'Forecaster',name:'',tr:true,src:null,png:null}),pdf=D.sig,cb=(p,v,l)=>`<div class="wf"><label style="display:flex;gap:6px;align-items:center;font-size:13px;color:var(--t)"><input type="checkbox" style="width:auto" data-p="sigManual.${p}" ${v?'checked':''}> ${l}</label></div>`;
+  h=`<b>TTD Forecaster</b>${iss}<p style="margin:4px 0 8px;color:var(--m)">Susunan blok: <b>judul</b> → <b>tanda tangan</b> → <b>nama</b>. Dipasang di kanan-bawah halaman laporan terakhir.</p>
+  <div class="row" style="margin:0 0 6px;align-items:center"><span>Dari PDF: <b style="color:${pdf?'var(--ok)':'var(--w)'}">${pdf?'✓ terbaca':'✗ tidak ditemukan'}</b></span>${pdf?`<img src="${pdf.url}" style="height:48px;background:#fff;border:1px solid var(--b);border-radius:4px">`:''}</div>
+  <div class="fg">${cb('on',m.on,'Pakai TTD manual (menggantikan yang dari PDF)')}${fld('Judul',inp('sigManual.title',m.title))}${fld('Nama',inp('sigManual.name',m.name))}${cb('tr',m.tr,'Latar putih gambar TTD dijadikan transparan')}${cb('off',m.off,'Jangan pasang TTD forecaster sama sekali')}</div>
+  <div class="row" style="align-items:center"><button class="sat-btn" data-act="sigpick">✍ Upload gambar TTD…</button><button data-act="sigclear" ${m.src?'':'disabled'}>Hapus gambar TTD</button><small style="color:var(--m)">Atau tempel dengan Ctrl+V. Tanpa gambar: disediakan ruang kosong untuk TTD basah.</small><img id="sigprev" ${m.png&&m.on?`src="${m.png.url}"`:'style="display:none"'} style="height:90px;background:#fff;border:1px solid var(--b);border-radius:4px"></div>`}
+ else if(!i){const L=D.letter,f=(l,k)=>fld(l,inp('letter.'+k,L[k]));
+   h=`<b>Edit surat</b>${iss}${dbBox(L)}<div class="fg">`+f('Ref (jika diisi, hasil konversi mengikuti nilai ini)','ref')+f('Attach','attach')+f('To (perusahaan)','to_company')+f('Tempat, tanggal','place_date')+fld('Here with',ta('letter.herewith',L.herewith),'w2')
+    +fld('To (baris alamat)',ta('letter.to_lines',L.to_lines,1),'w2')+fld('Butir 1',ta('letter.item1',L.item1),'w2')+fld('Bullet (satu per baris)',ta('letter.bullets',L.bullets,1),'w2')+fld('Butir 2',ta('letter.item2',L.item2),'w2')
+   +`</div><div class="row"><button data-act="sync">Sinkron bullet dari laporan</button></div>`}
+ else{const r=D.reports[i-1],b=`reports.${i-1}.`,f=(l,k)=>fld(l,inp(b+k,r[k]));
+  h=`<b>Edit laporan ${i}</b>${iss}<div class="fg">`+f('Koordinat dari','start')+f('Koordinat ke (kosong bila titik tunggal)','end')+f('Tanggal','date')+f('Zona waktu','tz')+f('Tanggal kolom pertama','first_date')+`</div>
+  <label>Tabel — arah &amp; nilai pada sel angin/arus dipisah baris baru</label><div style="overflow:auto"><table class="tt"><colgroup><col style="width:11%"><col style="width:17%"><col style="width:23%"><col style="width:23%"><col style="width:15%"><col style="width:5%"></colgroup><tr><th>Waktu<th>Cuaca<th>Angin<th>Arus<th>Gelombang<th>BF<th></tr>${r.rows.map((c,k)=>`<tr>${[1,2,3,4,5].map(j=>`<td>${ta(`${b}rows.${k}.${j}`,c[j])}</td>`).join('')}${r.hasBeaufort?`<td>${beaufort(splitDV(c[3])[1])}</td>`:''}<td><button data-act="del" data-k="${k}">×</button></td></tr>`).join('')}</table></div>
+  <div class="row" style="align-items:center"><button data-act="add">+ Baris</button><button data-act="retry">↻ Coba ulang halaman ini (strategi ${r.st%GAPS.length+1}/${GAPS.length})</button><button class="sat-btn" data-act="frame">🛰 Buka Frame Citra Satelit</button><button data-act="pick">Upload gambar…</button><button data-act="copysat" ${r.sat?'':'disabled'}>Salin gambar ini</button>${r.sat?`<img src="${r.sat.url}" style="height:54px;border-radius:4px">`:''}<small style="color:var(--m)">Gambar juga bisa ditempel dengan Ctrl+V.</small></div>`}
  $('#form').innerHTML=h}
 
-async function viewPdf(){if(!S.D||!$('#pp').offsetParent)return;const D=S.D,pi=S.sel?D.reports[S.sel-1].pi:Math.max(D.letterPi,0),pg=await S.doc.getPage(pi+1),w=($('#pcv').parentElement.parentElement.clientWidth-16)*zp,sc=w/pg.getViewport({scale:1}).width,dp=devicePixelRatio||1,vp=pg.getViewport({scale:sc*dp}),c=$('#pcv');
+async function viewPdf(){if(!S.D||!$('#pp').offsetParent)return;const D=S.D,pi=S.sel<0?(D.reports.length?D.reports[D.reports.length-1].pi:0):S.sel?D.reports[S.sel-1].pi:Math.max(D.letterPi,0),pg=await S.doc.getPage(pi+1),w=($('#pcv').parentElement.parentElement.clientWidth-16)*zp,sc=w/pg.getViewport({scale:1}).width,dp=devicePixelRatio||1,vp=pg.getViewport({scale:sc*dp}),c=$('#pcv');
  c.width=vp.width;c.height=vp.height;c.style.width=vp.width/dp+'px';await pg.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;$('#pinfo').textContent='hal. '+(pi+1)}
 let tm,busy=false,sc1=1,zd=1,zp=1;
-async function refresh(){if(busy)return;busy=true;try{const{blob,left}=await build();S.blob=blob;const sc=$('#dxp').scrollTop;$('#dx').innerHTML='';
-  await docx.renderAsync(blob,$('#dx'),null,{className:'docx',inWrapper:true,breakPages:true});const sec=$('#dx').querySelectorAll('section.docx');
-  fit();$('#dxp').scrollTop=sc;$('#dinfo').textContent=sec.length+' hal.'+(left.length?' · sisa kuning: '+left.length:'');log(left.length?'Peringatan: masih ada teks kuning di template: '+left.slice(0,3).join(' | '):'Preview diperbarui.')}
- catch(e){log('Gagal menyusun DOCX: '+e.message);console.error(e)}busy=false}
+async function refresh(){if(busy)return;busy=true;try{const{blob,left}=await build();S.blob=blob;log(left.length?'DOCX disusun, tetapi masih ada teks kuning di template: '+left.slice(0,3).join(' | '):'DOCX berhasil disusun.')}
+ catch(e){log('Gagal menyusun DOCX: '+e.message);console.error(e)}finally{busy=false}}
 const touch=()=>{if(S.step===4||S.step===6){renderNav();renderNotice()}if(S.step===5)renderRg();if(S.step===7)renderDl();clearTimeout(tm);tm=setTimeout(refresh,700)};
-function fit(){const w=$('#dx .docx-wrapper');if(!w||!$('#dxp').offsetParent)return;['transform','width','marginBottom','marginRight'].forEach(k=>w.style[k]='');const nw=w.scrollWidth;
- sc1=($('#dxp').clientWidth-4)/nw*zd;w.style.width=nw+'px';w.style.transformOrigin='0 0';w.style.transform=`scale(${sc1})`;
- w.style.marginBottom=-(w.offsetHeight*(1-sc1))+'px';w.style.marginRight=-(nw*(1-sc1))+'px';$('#zdl').textContent=Math.round(sc1*100)+'%'}
+function fit(){const root=$('#dx'),w=root.querySelector('.docx-wrapper');if(!w||!$('#dxp').offsetParent)return;
+ const pages=[...root.querySelectorAll('section.docx')];if(!pages.length)return;
+ // Keep each DOCX page's intrinsic dimensions and margins; scale only the preview wrapper.
+ ['transform','width','marginBottom','marginRight','marginLeft'].forEach(k=>w.style[k]='');
+ const pageW=Math.max(...pages.map(p=>p.offsetWidth));
+ const avail=Math.max(240,$('#dxp').clientWidth-36);
+ sc1=Math.min(1,avail/pageW)*zd;
+ w.style.width=pageW+'px';w.style.maxWidth='none';w.style.transformOrigin='top center';w.style.transform=`scale(${sc1})`;
+ w.style.marginLeft='auto';w.style.marginRight='auto';
+ // Transform does not affect document flow; compensate for the unused vertical space.
+ const rawH=w.offsetHeight;
+ w.style.marginBottom=-(rawH*(1-sc1))+'px';
+ $('#zdl').textContent=Math.round(sc1*100)+'%'}
 const clamp=v=>Math.min(3,Math.max(.3,v));
 function zoomD(d){zd=d?clamp(zd*d):1;fit()}
 function zoomP(d){zp=d?clamp(zp*d):1;$('#zpl').textContent=Math.round(zp*100)+'%';viewPdf()}
 addEventListener('resize',()=>{fit();viewPdf()});
-$('#dxp').addEventListener('wheel',e=>{if(e.ctrlKey){e.preventDefault();zoomD(e.deltaY<0?1.1:1/1.1)}},{passive:false});
-function scrollDoc(){const s=$('#dx').querySelectorAll('section.docx')[S.noLetter?S.sel-1:S.sel];if(s)$('#dxp').scrollTop=s.getBoundingClientRect().top-$('#dx').getBoundingClientRect().top+30*sc1-10}
+const dxpEl=$('#dxp');if(dxpEl)dxpEl.addEventListener('wheel',e=>{if(e.ctrlKey){e.preventDefault();zoomD(e.deltaY<0?1.1:1/1.1)}},{passive:false});
+let cmpOn=false;
+function toggleCmp(){cmpOn=!cmpOn;$('#dx').style.display=cmpOn?'none':'';$('#cmp').style.display=cmpOn?'block':'none';$('#bcmp').textContent=cmpOn?'Tampilan Word':'Bandingkan data';renderCmp();if(!cmpOn)fit()}
+function renderCmp(){if(!cmpOn||!S.D)return;const D=S.D,i=S.sel;
+ if(i<0){$('#cmp').innerHTML='<b>TTD Forecaster</b> dipasang di kanan-bawah halaman laporan terakhir.';return}
+ if(!i){$('#cmp').innerHTML='<b>Teks surat yang terbaca dari PDF (OCR/teks)</b><pre style="white-space:pre-wrap;font-size:11px">'+esc(D.letter.raw||'(tidak ada)')+'</pre>';return}
+ const r=D.reports[i-1],o=(S.out||[])[i-1]||{rows:[]},k=x=>String(x||'').toLowerCase().replace(/[^a-z0-9]/g,''),dg=x=>(String(x).match(/\d+/g)||[]).join(),
+  st=(a,b,c)=>k(a)===k(b)?'<span style="color:var(--ok)">= sama</span>':(!c&&dg(a)===dg(b))?'<span style="color:var(--ok)">✓ angka sama</span>':c?'<span style="color:var(--w)">↻ disesuaikan template</span>':'<span style="color:var(--e)">⚠ berbeda</span>',
+  row=(a,b,c,f)=>`<tr><td>${a}</td><td>${esc(b)}</td><td>${esc(c)}</td><td>${st(b,c,f)}</td></tr>`;
+ let h='<table><tr><th>Item<th>Dari PDF<th>Di Word<th></tr>'+row('Koordinat',r.end?`${r.start} → ${r.end}`:r.start,(o.coord||'').replace(/^Coordinate:?\s*/,''),1)+row('Tanggal',r.date,(o.forT||'').replace(/^for\s+/,''),1);
+ r.rows.forEach((c,j)=>{const wv=(o.rows||[])[j]||[];h+=row('Baris '+(j+1),[1,2,3,4,5].map(x=>(c[x]||'').replace(/\n/g,' / ')).join(' | '),wv.slice(0,5).join(' | '),0)});
+ $('#cmp').innerHTML=h+'</table><details><summary>Teks mentah halaman PDF ini (untuk diagnosa)</summary><pre style="white-space:pre-wrap;font-size:11px">'+esc(ptext(S.P[r.pi]))+'</pre></details>'}
+function pickSec(secs){if(S.sel<0)return secs[secs.length-1];const o=S.sel&&S.out&&S.out[S.sel-1];
+ if(o){const c=(o.coord||'').replace(/^Coordinate:?\s*/,'').trim(),m=secs.filter(x=>x.textContent.includes(o.forT)&&(!c||x.textContent.includes(c)));if(m.length)return m[m.length-1]}   /* bullet di surat juga memuat tanggal+koordinat -> ambil yang TERAKHIR (halaman laporan) */
+ return secs[S.noLetter?S.sel-1:S.sel]}
+function scrollDoc(){const s=pickSec([...$('#dx').querySelectorAll('section.docx')]);if(s)$('#dxp').scrollTop=s.getBoundingClientRect().top-$('#dx').getBoundingClientRect().top+30*sc1-10}
 $('#dl').addEventListener('input',e=>{if(e.target.id==='fname')S.fname=e.target.value});
-async function saveDocx(){clearTimeout(tm);await refresh();let n=(S.fname??'Hasil_'+S.name).trim().replace(/\.docx$/i,'').replace(/[\\/:*?"<>|]+/g,'_')||'Hasil';n+='.docx';
- if(window.showSaveFilePicker){try{const h=await showSaveFilePicker({suggestedName:n,types:[{description:'Dokumen Word',accept:{'application/vnd.openxmlformats-officedocument.wordprocessingml.document':['.docx']}}]});const w=await h.createWritable();await w.write(S.blob);await w.close();log('Tersimpan: '+h.name);return}catch(e){if(e.name==='AbortError')return}}
- const l=document.createElement('a');l.href=URL.createObjectURL(S.blob);l.download=n;l.click();log('Diunduh sebagai '+n)}
-function select(i){S.sel=i;renderNav();renderNotice();if(S.step===6)renderForm();viewPdf();scrollDoc()}
+async function saveDocx(){clearTimeout(tm);await refresh();if(!S.blob){log('DOCX belum berhasil dibuat.');return}let n=(S.fname??'Hasil_'+S.name).trim().replace(/\.docx$/i,'').replace(/[\\/:*?"<>|]+/g,'_')||'Hasil';n+='.docx';
+ const url=URL.createObjectURL(S.blob),l=document.createElement('a');l.href=url;l.download=n;l.style.display='none';document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
+log('Unduhan DOCX dimulai: '+n)}
+function select(i){S.sel=i;renderNav();renderNotice();if(S.step===6)renderForm()}
 async function retry(i){const r=S.D.reports[i-1],n=await parseReport(S.P[r.pi],r.st+1);if(r.sat&&r.sat.manual)n.sat=r.sat;S.D.reports[i-1]=n}
-document.addEventListener('input',e=>{const t=e.target,p=t.dataset&&t.dataset.p;if(!p)return;const a=p.split('.');let o=S.D;a.slice(0,-1).forEach(k=>o=o[k]);o[a[a.length-1]]=t.dataset.arr?t.value.split('\n').filter(Boolean):t.value;if(p==='letter.bullets')S.D.letter.bulletsManual=true;touch()});
+document.addEventListener('input',e=>{const t=e.target,p=t.dataset&&t.dataset.p;if(!p)return;const a=p.split('.');let o=S.D;a.slice(0,-1).forEach(k=>o=o[k]);o[a[a.length-1]]=t.type==='checkbox'?t.checked:t.dataset.arr?t.value.split('\n').filter(Boolean):t.value;
+ if(/^reports\.\d+\.rows\.\d+\.3$/.test(p)){const tr=t.closest('tr');const bfIndex=S.D.reports[+a[1]].hasBeaufort?5:-1;if(tr&&bfIndex>=0&&tr.children[bfIndex])tr.children[bfIndex].textContent=HITUNG_BEAUFORT?beaufort(splitDV(t.value)[1]):'-'}
+ if(p.startsWith('sigManual.')){recomposeSig().then(()=>{const im=$('#sigprev'),m=S.D.sigManual;if(im&&m.on&&m.png){im.src=m.png.url;im.style.display=''}else if(im)im.style.display='none';if(S.sel<0&&t.type==='checkbox')renderForm();renderNav();renderNotice();touch()});return}
+ if(p==='letter.bullets')S.D.letter.bulletsManual=true;touch()});
+/* ---------- TTD Forecaster manual: judul -> ttd -> nama (gambar PNG transparan, ukuran asli 300 dpi) ---------- */
+function sigProcess(src,tr){const c=document.createElement('canvas');c.width=src.width;c.height=src.height;const x=c.getContext('2d');x.drawImage(src,0,0);
+ if(tr){const im=x.getImageData(0,0,c.width,c.height),a=im.data;for(let i=0;i<a.length;i+=4){const al=Math.min(255,(255-Math.min(a[i],a[i+1],a[i+2]))*4);a[i+3]=Math.min(a[i+3],al)}x.putImageData(im,0,0)}return c}
+async function recomposeSig(){const m=S.D.sigManual;if(!m||!m.on)return;const K=DPI/72,f=`${Math.round(11*K)}px "Times New Roman",Times,serif`,t=document.createElement('canvas').getContext('2d');t.font=f;
+ const title=(m.title||'').trim(),name=(m.name||'').trim(),lh=Math.round(11*K*1.3),gap=Math.round(.05*DPI);let sc=null,sw=0,sh=Math.round(.45*DPI);
+ if(m.src){sc=sigProcess(m.src,m.tr);const k=Math.min(1,.5*DPI/sc.height,2.2*DPI/sc.width);sw=Math.round(sc.width*k);sh=Math.round(sc.height*k)}
+ const W=Math.max(Math.ceil(t.measureText(title).width),Math.ceil(t.measureText(name).width),sw,Math.round(1.5*DPI))+20,H=(title?lh+gap:0)+sh+gap+(name?lh:0),c=document.createElement('canvas');c.width=W;c.height=H;
+ const x=c.getContext('2d');x.font=f;x.textAlign='center';x.fillStyle='#000';let y=0;if(title){x.fillText(title,W/2,y+lh*.8);y+=lh+gap}if(sc)x.drawImage(sc,(W-sw)/2,y,sw,sh);y+=sh+gap;if(name)x.fillText(name,W/2,y+lh*.8);m.png=await png(c)}
+async function setSigFile(blob){const m=S.D.sigManual;m.src=await createImageBitmap(blob);m.on=true;await recomposeSig();if(S.sel<0)renderForm();touch();log('TTD forecaster ditambahkan.')}
+$('#f-sig').onchange=async e=>{const f=e.target.files[0];if(f)await setSigFile(f);e.target.value=''};
 async function setSat(blob){const i=S.sel;if(!i){log('Pilih halaman laporan dulu, lalu tempel gambar.');return}
  const bm=await createImageBitmap(blob),c=document.createElement('canvas');c.width=bm.width;c.height=bm.height;c.getContext('2d').drawImage(bm,0,0);
  const o=await png(c);o.manual=true;S.D.reports[i-1].sat=o;if(S.step===6)renderForm();touch();log('Gambar satelit laporan '+i+' diganti.')}
@@ -350,26 +477,32 @@ const closeF=()=>{$('#fm').style.display='none'};
 async function pasteClip(){try{for(const it of await navigator.clipboard.read()){const t=it.types.find(x=>x.startsWith('image/'));if(t){await setSat(await it.getType(t));closeF();return}}
  log('Tidak ada gambar di clipboard — klik "Salin ke clipboard" di alat Frame dulu.')}catch(e){log('Izin clipboard ditolak. Tutup panel lalu tekan Ctrl+V di halaman ini.')}}
 $('#f-sat').onchange=async e=>{const f=e.target.files[0];if(f)await setSat(f);e.target.value='';closeF()};
-document.addEventListener('paste',e=>{if(!S.D||/INPUT|TEXTAREA/.test(e.target.tagName))return;const it=[...e.clipboardData.items].find(i=>i.type.startsWith('image/'));if(it){e.preventDefault();setSat(it.getAsFile()).then(closeF)}});
+document.addEventListener('change',e=>{const t=e.target;if(!S.D||!S.D.letter||!t.dataset)return;const L=S.D.letter;
+ if('dbpick' in t.dataset){if(t.value!==''){pickDB(+t.value);renderForm();touch()}}
+ else if(t.dataset.p==='letter.to_company'&&!L.to_lines.length){applyDB(L,[t.value]);renderForm();touch()}});
+document.addEventListener('paste',e=>{if(!S.D||/INPUT|TEXTAREA/.test(e.target.tagName))return;const it=[...e.clipboardData.items].find(i=>i.type.startsWith('image/'));if(it){e.preventDefault();if(S.sel<0)setSigFile(it.getAsFile());else setSat(it.getAsFile()).then(closeF)}});
 document.addEventListener('click',async e=>{const t=e.target.closest('[data-i],[data-act],[data-go]');if(!t)return;if(t.dataset.go)return go(t.dataset.go);if(!S.D)return;
  const D=S.D,a=t.dataset.act;if(t.dataset.i2!==undefined)S.sel=+t.dataset.i2;if(t.dataset.i!==undefined&&!a)return select(+t.dataset.i);
  if(a==='dl')await saveDocx();
+ else if(a==='usedb'){pickDB(D.letter.dbIdx);renderForm();touch()}
  else if(a==='sync'){D.letter.bulletsManual=false;D.letter.bullets=D.reports.map(r=>bulletText(r,''));renderForm();touch()}
  else if(a==='add'){D.reports[S.sel-1].rows.push(['','','','','','']);renderForm();touch()}
  else if(a==='del'){D.reports[S.sel-1].rows.splice(+t.dataset.k,1);renderForm();touch()}
- else if(a==='retry'){log('Regenerate halaman…');await retry(S.sel);renderForm();touch();viewPdf()}
+ else if(a==='retry'){log('Regenerate halaman…');await retry(S.sel);renderForm();touch()}
  else if(a==='retry1'){log('Regenerate halaman…');await retry(S.sel);touch();log('Selesai.')}
  else if(a==='retryall'){log('Regenerate halaman Gagal/Cek…');for(let i=1;i<=D.reports.length;i++)if(lvl(i)!=='ok')await retry(i);touch();log('Selesai.')}
- else if(a==='view'){await go(4);select(S.sel)}
+ else if(a==='view'){await go(6);select(S.sel)}
+ else if(a==='sigpick')$('#f-sig').click();
+ else if(a==='sigclear'){D.sigManual.src=null;await recomposeSig();renderForm();touch()}
  else if(a==='frame'){$('#ft').textContent='Frame Citra Satelit — untuk Laporan '+S.sel;const f=$('#fi');if(!f.src)f.src='https://infomaritim.github.io/Citrasat-PTSP/';$('#fm').style.display='block'}
  else if(a==='pick')$('#f-sat').click();else if(a==='closef')closeF();else if(a==='pastef')pasteClip();
  else if(a==='copysat'){try{const b=await(await fetch(D.reports[S.sel-1].sat.url)).blob();await navigator.clipboard.write([new ClipboardItem({'image/png':b})]);log('Gambar disalin. Buka Frame Citra Satelit lalu tempel (Ctrl+V).')}catch(x){log('Gagal menyalin: '+x.message)}}});
-$('#go').onclick=async()=>{try{$('#go').disabled=true;log('Membaca PDF…');await ready;S.doc=await pdfjsLib.getDocument({data:new Uint8Array(S.pdf.slice(0))}).promise;
+$('#go').onclick=async()=>{try{if(!S.pdf||!S.tpl)throw new Error('Pilih file PDF dan template DOCX terlebih dahulu.');if(typeof pdfjsLib==='undefined')throw new Error('Pustaka pembaca PDF gagal dimuat. Periksa koneksi internet, lalu buka ulang file HTML.');if(typeof JSZip==='undefined')throw new Error('Pustaka pembaca template Word (JSZip) gagal dimuat. Periksa koneksi internet, lalu buka ulang file HTML.');$('#go').disabled=true;$('#prog').style.color='var(--m)';log('Membaca PDF…');await ready;S.doc=await pdfjsLib.getDocument({data:new Uint8Array(S.pdf.slice(0))}).promise;
  const D={letter:null,reports:[],sig:null,letterPi:-1};S.D=D;S.P={};S.sel=0;const N=S.doc.numPages;
  for(let pi=0;pi<N;pi++){log(`Memproses halaman ${pi+1}/${N}…`);const P=await getPage(pi);P.pi=pi;S.P[pi]=P;const tx=ptext(P);
-  if(/Meteorological Reports/.test(tx))D.reports.push(await parseReport(P,0));
-  else if(!D.letter&&pi===0){let t=tx;if(P.items.reduce((a,i)=>a+i.s.length,0)<=50)t=await ocr(P);D.letter=parseLetter(t);D.letterPi=0}}
- D.letter=D.letter||parseLetter('');D.letter.bullets=D.reports.length?D.reports.map(r=>bulletText(r,'')):(D.letter.bullets_ocr||[]);
- log('Mencari tanda tangan Forecaster…');D.sig=await findSig();log('Menyusun Word…');await refresh();S.sel=S.noLetter&&D.reports.length?1:0;steps();go(4)}
- catch(e){log('Error: '+e.message);console.error(e)}steps()};
+  if(isReport(tx))D.reports.push(await parseReport(P,0));
+  else if(!D.letter&&pi===0){let t=tx;if(P.items.reduce((a,i)=>a+i.s.length,0)<=50)t=await ocr(P);D.letter=parseLetter(t);D.letter.raw=t;D.letterPi=0}}
+ D.sigManual={on:false,off:false,title:'Forecaster',name:'',tr:true,src:null,png:null};const rawTo=D.letter?[D.letter.to_company,...(D.letter.to_lines||[])].filter(Boolean):[];D.letter=sanitizeLetter(D.letter||parseLetter(''),D.reports.length,D.reports);applyDB(D.letter,rawTo);if(TTD_DARI_TEMPLATE)['sincerely','behalf','chief','name'].forEach(k=>{D.letter[k+'_pdf']=D.letter[k];D.letter[k]=''});D.letter.bullets=D.reports.length?D.reports.map(r=>bulletText(r,'')):(D.letter.bullets_ocr||[]);
+ log('Mencari tanda tangan Forecaster…');D.sig=await findSig();log('Menyusun Word…');await refresh();S.sel=S.noLetter&&D.reports.length?1:0;steps();go(6)}
+ catch(e){const msg='TRANSFER GAGAL: '+(e&&e.message?e.message:String(e));log(msg);const p=$('#prog');if(p){p.style.color='var(--e)';p.style.fontWeight='700';p.textContent=msg+' — coba periksa koneksi internet atau file yang diunggah.'}console.error(e)}finally{steps()}};
 steps();</script></body></html>
